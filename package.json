@@ -2,7 +2,6 @@
   "name": "three-dev-tool",
   "version": "1.0.0",
   "description": "Intuitive and dynamic Chrome Dev Tool Extension for Three.js debugging",
-  "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "webpack --config webpack/webpack.config.js"
