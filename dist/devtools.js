@@ -1,1 +1,0 @@
-(()=>{"use strict";chrome.devtools.panels.create("Three Dev Tool","","../panel.html")})();
