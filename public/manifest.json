@@ -8,8 +8,8 @@
     "scripting"
  ],
  "background": {
-  "service_worker": "background.js"
+  "service_worker": "./background.js"
 },
   "minimum_chrome_version": "10.0",
-  "devtools_page": "../devtools.html"
+  "devtools_page": "./devtools.html"
 }
