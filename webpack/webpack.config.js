@@ -7,7 +7,8 @@ module.exports = {
    entry: {
       background: path.resolve(__dirname, "..", "src", "background.ts"),
       devtools: path.resolve(__dirname, "..", "src", "devtools.ts"),
-      panel: path.resolve(__dirname, "..", "src", "panel.ts")
+      panel: path.resolve(__dirname, "..", "src", "panel.ts"),
+      canvasSpy: path.resolve(__dirname, '..', 'src', 'canvasSpy.ts'),
    },
    output: {
       path: path.join(__dirname, "../dist"),
