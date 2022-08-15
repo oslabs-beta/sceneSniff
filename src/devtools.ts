@@ -1,1 +1,1 @@
-chrome.devtools.panels.create('Three Dev Tool', '', '../panel.html');
+chrome.devtools.panels.create('Three Dev Tool', '', './panel.html');
