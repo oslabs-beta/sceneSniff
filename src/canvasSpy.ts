@@ -1,4 +1,4 @@
-document.addEventListener('DOMContentLoaded', () => {
+
   console.log('DOCUMENT', document);
 
   let page = document.getElementsByTagName('canvas')[0];
@@ -13,7 +13,3 @@ document.addEventListener('DOMContentLoaded', () => {
   if (page) {
     wrapCanvas(page);
   }
-})
-
-
-//window.document
