@@ -4,15 +4,17 @@
   "version": "1.0",
   "manifest_version": 3,
   "permissions": [
+    "storage",
     "webNavigation",
     "scripting"
  ],
  "host_permissions": ["<all_urls>"],
  "content_scripts": [
   {
-    "matches": ["http://127.0.0.1:5500/index.html"],
+    "matches": ["<all_urls>"],
     "js": ["./canvasSpy.js"],
-    "run_at": "document_end"
+    "run_at": "document_start",
+    "all_frames": true
   }
 ],
  "background": {
