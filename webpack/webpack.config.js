@@ -9,6 +9,7 @@ module.exports = {
       devtools: path.resolve(__dirname, "..", "src", "devtools.ts"),
       panel: path.resolve(__dirname, "..", "src", "panel.ts"),
       canvasSpy: path.resolve(__dirname, '..', 'src', 'canvasSpy.ts'),
+      script: path.resolve(__dirname, '..', 'src', 'script.js'),
    },
    output: {
       path: path.join(__dirname, "../dist"),
