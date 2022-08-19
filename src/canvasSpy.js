@@ -1,88 +1,51 @@
 const script = document.createElement('script');
-script.src = chrome.runtime.getURL('script.js');
+console.log('INJECTING');
+
+script.text = `
+(() => {
+  console.log('TESTING');
+
+  const $devtoolsReady = Symbol('devtoolsReady');
+  const $backlog = Symbol('backlog');
+
+  console.log('INJECTED');
+
+const target = new class ThreeTarget extends EventTarget {
+  constructor() {
+    super();
+    this[$devtoolsReady] = false;
+    this[$backlog] = [];
+    this.addEventListener('devtools-ready', e => {
+      this[$devtoolsReady] = true;
+      for (let event of this[$backlog]) {
+        this.dispatchEvent(event);
+      }
+    }, { once: true });
+  }
+  
+  dispatchEvent(event) {
+    if (this[$devtoolsReady] || event.type === 'devtools-ready') {
+      super.dispatchEvent(event);
+    } else {
+      this[$backlog].push(event);
+    }
+  }
+}
+
+Object.defineProperty(window, '__THREE_DEVTOOLS__', {
+  value: target,
+});
+
+})();
+`;
+
 
 script.onload = () => {
+  console.log('SCRIPT RUNNING');
   ( script.parentNode ) ? script.parentNode.removeChild(script) : null;
 }
 
-(document.head || document.documentElement).appendChild(script);
-
-console.log('THIS IS: ',document.head);
-
-
-
-
-
-// import * as THREE from 'three';
-
-// const script = document.createElement('script');
-
-// script.text =`
-// (() => {
-// const $devtoolsReady = Symbol('devtoolsReady');
-// const $backlog = Symbol('backlog');
-
-// const target = new class ThreeTarget extends EventTarget {
-//   constructor() {
-//     super();
-//     this[$devtoolsReady] = false;
-//     this[$backlog] = [];
-//     this.addEventListener('devtools-ready', e => {
-//       this[$devtoolsReady] = true;
-//       for (let event of this[$backlog]) {
-//         this.dispatchEvent(event);
-//       }
-//     }, { once: true });
-//   }
-
-//   dispatchEvent(event) {
-//     if (this[$devtoolsReady] || event.type === 'devtools-ready') {
-//       super.dispatchEvent(event);
-//     } else {
-//       this[$backlog].push(event);
-//     }
-//   }
-// }
-
-
-// Object.defineProperty(window, '__THREE_DEVTOOLS__', {
-//   value: target,
-// });
-// })();
-// `;
-
-// ( document.head || document.documentElement ).appendChild(script);
-
-
-// console.log(window);
-// console.log('DOC: ', document);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+( document.head || document.documentElement ).appendChild(script);
 
 
 
