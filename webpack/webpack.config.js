@@ -9,7 +9,7 @@ module.exports = {
       background: path.resolve(__dirname, "..", "src", "background.ts"),
       devtools: path.resolve(__dirname, "..", "src", "devtools.ts"),
       panel: path.resolve(__dirname, "..", "src", "panel.tsx"),
-      // canvasSpy: path.resolve(__dirname, '..', 'src', 'canvasSpy.ts'),
+      canvasSpy: path.resolve(__dirname, '..', 'src', 'canvasSpy.ts'),
    },
    output: {
       path: path.join(__dirname, "../dist"),
@@ -46,10 +46,10 @@ module.exports = {
       new CopyPlugin({
          patterns: [{from: ".", to: ".", context: "public"}]
       }),
-      new CopyPlugin({
-         patterns: [
-            {from: "../src/canvasSpy.js", to: ".", context: 'src', info: { minimized: true },},
-         ],
-      }),
+      // new CopyPlugin({
+      //    patterns: [
+      //       {from: "../src/canvasSpy.js", to: ".", context: 'src', info: { minimized: true },},
+      //    ],
+      // }),
    ],
 };
