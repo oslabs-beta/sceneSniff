@@ -2,21 +2,25 @@
   "name": "Three Dev Tool",
   "description": "Debugging 3d renders for three.js",
   "version": "1.0",
-  "manifest_version": 3,
+  "manifest_version": 2,
   "permissions": [
+    "storage",
     "webNavigation",
-    "scripting"
+    "http://*/*",
+    "https://*/*"
  ],
- "host_permissions": ["<all_urls>"],
  "content_scripts": [
   {
-    "matches": ["http://127.0.0.1:5500/index.html"],
+    "matches": ["<all_urls>"],
     "js": ["./canvasSpy.js"],
-    "run_at": "document_end"
+    "run_at": "document_start"
   }
 ],
  "background": {
-  "service_worker": "./background.js"
+  "scripts": [
+    "./background.js"
+  ],
+  "persistent": false
 },
   "minimum_chrome_version": "10.0",
   "devtools_page": "./devtools.html"
