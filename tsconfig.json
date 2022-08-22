@@ -3,11 +3,13 @@
      "strict": true,
      "module": "commonjs",
      "target": "es6",
+     "noImplicitAny": true,
      "esModuleInterop": true,
      "sourceMap": true,
      "rootDir": "src",
      "outDir": "dist/js",
      "noEmitOnError": true,
-     "typeRoots": [ "node_modules/@types" ]
+     "typeRoots": [ "node_modules/@types" ],
+     "jsx": "react"
   }
 }
