@@ -17,7 +17,12 @@ export function Window() {
 
   return (
     <List
-      sx={{ width: '100%', maxWidth: 270, bgcolor: 'background.paper' }}
+      sx={{ 
+        width: '100%', 
+        maxWidth: 270, 
+        bgcolor: 'background.paper',
+        
+       }}
       component="nav"
       aria-labelledby="nested-list-subheader"
       subheader={
@@ -27,11 +32,11 @@ export function Window() {
       }
     >
       <ListItemButton onClick={handleClick}>
-        <ListItemText primary="Canvas" />
+        <ListItemText primary="Scene" />
         {open ? <ExpandLess /> : <ExpandMore />}
       </ListItemButton>
       <Collapse in={open} timeout="auto" unmountOnExit>
-      <ListItemButton>
+      <ListItemButton onClick={() => {console.log('clicked')}}>
         <ListItemText primary="Cube" />
       </ListItemButton>
       <ListItemButton>
