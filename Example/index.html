@@ -18,9 +18,13 @@
 			document.body.appendChild( renderer.domElement );
 
 			const geometry = new THREE.BoxGeometry();
-			const material = new THREE.MeshBasicMaterial( { color: 0x00ff00 } );
+			const material = new THREE.MeshBasicMaterial( { color: 0xcf27ff } );
 			const cube = new THREE.Mesh( geometry, material );
+			const cube2 = new THREE.Mesh( geometry, new THREE.MeshBasicMaterial( { color: 0xffffff } ) );
+			const cube3 = new THREE.Mesh( geometry, new THREE.MeshBasicMaterial( { color: 0x000000 } ) );
 			scene.add( cube );
+			scene.add( cube2 );
+			scene.add( cube3 );
 
 			camera.position.z = 5;
 
@@ -31,7 +35,10 @@
 				cube.rotation.y += 0.01;
 
 				renderer.render( scene, camera );
-
+				// if (typeof __THREE_DEVTOOLS__ !== "undefined") {
+				// 	__THREE_DEVTOOLS__.dispatchEvent( new CustomEvent("observe", { detail: scene }))
+				// 	__THREE_DEVTOOLS__.dispatchEvent( new CustomEvent("observe", { detail: renderer }))
+				// }
                                 /** HERE IS THE CODE THAT WILL ENABLE THE THREEJS EXTENSION **/                                
                                 // Observe a scene or a renderer
                                 /**  END OF THE CODE THAT WILL ENABLE THE THREEJS EXTENSION **/
@@ -44,7 +51,7 @@
       //                                     __THREE_DEVTOOLS__.dispatchEvent(
       //                                               new CustomEvent("observe", { detail: renderer })
       //                                     );
-      //                           }
+      //                          
 			animate();
 		</script>
 	</body>
