@@ -17,7 +17,9 @@ const target = new class ThreeTarget extends EventTarget {
     this[$backlog] = [];
     this.addEventListener('devtools-ready', e => {
       this[$devtoolsReady] = true;
+      console.log('BEFORE DISPATCHING')
       for (let event of this[$backlog]) {
+        console.log('   DISPATCHING:', event);
         this.dispatchEvent(event);
       }
     }, { once: true });
@@ -48,7 +50,12 @@ script.onload = () => {
 
 ( document.head || document.documentElement ).appendChild(script);
 
+window.addEventListener('message', ( eventID ) => {
+  console.log('WINDOW: ', eventID.data);
 
+  //send event to the background
+  chrome.runtime.sendMessage(eventID.data);
+})
 
 
 
