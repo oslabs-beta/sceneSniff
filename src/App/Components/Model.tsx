@@ -1,9 +1,12 @@
 import * as React from 'react';
+import { useState } from 'react';
 import Box from '@mui/material/Box';
 import { Typography } from '@mui/material';
 import Slider from '@mui/material/Slider';
 
 export function Model() {
+  const [modelTitle, setModelTitle] = useState('Model');
+
   return (
     <>
     <Box
@@ -13,6 +16,7 @@ export function Model() {
         backgroundColor: 'primary.dark',
       }}
       >
+    <Typography variant='h4' align='center'>{modelTitle}</Typography>
     <Typography variant='h6'>Size</Typography>
     <Slider
         size="small"

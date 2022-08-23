@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { useState } from 'react';
 import CssBaseline from '@mui/material/CssBaseline';
 // import Box from '@mui/material/Box';
 // import Container from '@mui/material/Container';
@@ -10,21 +11,20 @@ import { SceneButton } from '../Buttons/scene';
 import Grid from '@mui/material/Grid';
 
 export const MainContainer = (): JSX.Element => {
+
   return (
     <>
       <CssBaseline />
       <Grid 
       container
-      direction="column"
       >
-        <Grid item
-          xs={4}
-          >
+        <Grid item>
         <Window />
         <SceneButton />
         <LightsButton />
         <CameraButton />
         </Grid>
+       
         
         <Grid item>
           <Model />
