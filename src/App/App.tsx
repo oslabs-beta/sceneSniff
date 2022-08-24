@@ -18,10 +18,10 @@ export default function App(): JSX.Element {
   //Initiate connector.js enabling connection from browser to devtool
   const content = new ContentConnector();
 
-  //When state of panel changes, request the overview using contentConnector
+  //When state of panel or isReloaded changes, request the overview using contentConnector
   useEffect(() => {
     content.getOverview( panel );
-  }, [ panel ]);
+  }, [ panel, isReloaded ]);
 
   return (
     <>

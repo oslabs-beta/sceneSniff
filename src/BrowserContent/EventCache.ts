@@ -38,7 +38,7 @@ export default class EventCache extends EventTarget {
     for (let scene of this.scenes) {
       if (type === 'scenes') addEvent(scene);
       else {
-        utils.forEachDependency(scene, event => {
+        utilities.forEachDependency(scene, event => {
           this.registerEvent(event);
           const valid = type === 'geometries' ? (event.isGeometry || event.isBufferGeometry) :
             type === 'materials' ? event.isMaterial :
