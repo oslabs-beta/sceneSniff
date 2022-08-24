@@ -11,7 +11,6 @@ export default class ContentConnector extends EventTarget {
 
   constructor() {
     super();
-
     console.log( 'CONNECTING...' )
 
     //connect this to background.js
@@ -33,13 +32,34 @@ export default class ContentConnector extends EventTarget {
     //receiving message
     this.port.onMessage.addListener( (request) => {
       console.log('LOADED RECEIVED')
+
+      //Notify the browser __THREE_DEVTOOLS__ that devtools has been loaded and is waiting for a reload
       if ( request.type === 'devtoolLoaded' ) {
-        chrome.devtools.inspectedWindow.eval(`
-        console.log('BEFORE')
-        const devtools = new (${ThreeDT})(window.__THREE_DEVTOOLS__);
-        console.log('AFTER ', devtools)`)
+        chrome.devtools.inspectedWindow.eval(
+          //inject ThreeDT script to the inspected document
+          `const devtools = new (${ThreeDT})(window.__THREE_DEVTOOLS__);`
+        )
         chrome.devtools.inspectedWindow.eval('window.__THREE_DEVTOOLS__.dispatchEvent(new CustomEvent(\'devtools-ready\'));' );
       }
     })
+  }
+
+  //Grabbing the overviewing scene/s on the browser
+  getOverview( type: string ) {
+    this.postMessage( '_getOverview', { type } )
+  }
+
+  
+  /*helper function for posting message to the window
+  *
+  * type: Request type
+  * detail: either type of requested information of uuid of the entity requested
+  */
+  postMessage( type: string, detail: { type: string } | { uuid: string } ) {
+    chrome.devtools.inspectedWindow.eval(
+      `__THREE_DEVTOOLS__.dispatchEvent( new CustomEvent('${ type }', {
+        detail: ${ JSON.stringify( detail ) },
+      }));`
+    );
   }
 }
