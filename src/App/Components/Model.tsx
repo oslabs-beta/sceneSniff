@@ -1,41 +1,100 @@
 import * as React from 'react';
-import Box from '@mui/material/Box';
+import { useState } from 'react';
+import { RgbaColorPicker } from "react-colorful";
 import { Typography } from '@mui/material';
 import Slider from '@mui/material/Slider';
+import Divider from '@mui/material/Divider';
+import MuiInput from '@mui/material/Input';
+import Grid from '@mui/material/Grid';
+
 
 export function Model() {
+  const [colorMaterial, setColorMaterial] = useState({ r: 200, g: 150, b: 35, a: 0.5 });
+  const [colorLights, setColorLights] = useState({ r: 200, g: 150, b: 35, a: 0.5 });
+
+
+  
   return (
     <>
-    <Box
-      sx={{
-        width: 400,
-        height: 500,
-        backgroundColor: 'primary.dark',
-      }}
+<Grid container spacing = {2}
+    sx={{
+      backgroundColor: 'primary.dark',
+      gridAutoFlow: 'row',
+    }}
       >
-    <Typography variant='h6'>Size</Typography>
+  <Grid item xs={12} sm={6}>
+    <Typography variant='h6' fontWeight='bold' color='primary.main'>Geometry</Typography>
+    <Typography color='primary.light'>Type: </Typography>
+    <Typography color='primary.light'>Size: </Typography>
+    <Typography color='primary.light'>Width: </Typography>
     <Slider
+        sx = {{
+          width: 1/2
+        }}
         size="small"
         defaultValue={50}
         aria-label="Small"
         valueLabelDisplay="auto"
       />
+    <Typography color='primary.light'>Height</Typography>
     <Slider
+    sx = {{
+      width: 1/2
+    }}
         size="small"
         defaultValue={50}
         aria-label="Small"
         valueLabelDisplay="auto"
       />
+    <Typography color='primary.light'>Depth</Typography>
     <Slider
+     sx = {{
+      width: 1/2
+    }}
         size="small"
         defaultValue={50}
         aria-label="Small"
         valueLabelDisplay="auto"
       />
-    <Typography variant="h6">Color</Typography>;
-    <Typography variant="h6">Material</Typography>;
-    <Typography variant="h6">Texture</Typography>;
-    </Box>
+  </Grid>
+
+  <Grid item xs={12} sm={6}>
+    <Typography variant="h6" fontWeight="fontWeightBold" color='primary.main'>Material</Typography>
+    <Divider />
+    <Typography color='primary.light'>Type: </Typography>
+    <Typography color='primary.light'>Color: </Typography>
+    <RgbaColorPicker color={colorMaterial} onChange={setColorMaterial} />
+    <div className="value">{JSON.stringify(colorMaterial)}</div>
+  </Grid>
+
+    
+  <Grid item xs={12} sm={6}>
+    <Typography variant="h6" fontWeight='fontWeightBold' color='primary.main'>Lights</Typography>
+    <Typography color='primary.light'>Color</Typography>
+    <RgbaColorPicker color={colorLights} onChange={setColorLights} />
+    <div className="value">{JSON.stringify(colorLights)}</div>
+    <Typography color='primary.light'>Intensity: <MuiInput
+            size="small"
+            inputProps={{
+              step: 1,
+              min: 0,
+              max: 100,
+              type: 'number',
+              'aria-labelledby': 'input-slider',
+            }}
+          /></Typography>
+  </Grid>
+
+  <Grid item xs={12} sm={6}>
+    <Typography variant="h6" fontWeight='fontWeightBold' color='primary.main'>Perspective Camera</Typography>
+    <Typography color='primary.light'>FOV: </Typography>
+    <Typography color='primary.light'>Zoom: </Typography>
+    <Typography color='primary.light'>Aspect Ratio: </Typography>
+    <Typography color='primary.light'>Near plane: </Typography>
+    <Typography color='primary.light'>Far plane: </Typography>           
+  </Grid>
+
+</Grid>
     </>
   );
 }

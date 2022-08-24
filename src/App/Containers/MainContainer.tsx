@@ -1,36 +1,34 @@
 import * as React from 'react';
+import { useState } from 'react';
 import CssBaseline from '@mui/material/CssBaseline';
-// import Box from '@mui/material/Box';
-// import Container from '@mui/material/Container';
 import { Window } from '../Components/Window';
 import { Model } from '../Components/Model';
-import { CameraButton } from '../Buttons/camera';
-import { LightsButton } from '../Buttons/lights';
-import { SceneButton } from '../Buttons/scene';
 import Grid from '@mui/material/Grid';
+import { ThemeProvider } from "@mui/material";
+import {devToolTheme} from "../Themes/themes";
+
 
 export const MainContainer = (): JSX.Element => {
+
   return (
     <>
+    <ThemeProvider theme={devToolTheme}>
       <CssBaseline />
       <Grid 
       container
-      direction="column"
+      spacing ={2}
       >
-        <Grid item
-          xs={4}
-          >
+        <Grid item xs={2.5}>
         <Window />
-        <SceneButton />
-        <LightsButton />
-        <CameraButton />
         </Grid>
+       
         
-        <Grid item>
+        <Grid item xs={9.5}>
           <Model />
         </Grid>
 
       </Grid>
+      </ThemeProvider>
     </>
   );
 }
