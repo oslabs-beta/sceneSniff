@@ -10,18 +10,26 @@ import {devToolTheme} from "../Themes/themes";
 
 export const MainContainer = (): JSX.Element => {
 
+<<<<<<< HEAD
   // https://tailwindcss.com/ check this out in combination with MUI while I am gone lol
   // THANKS!! 👍
   
+=======
+>>>>>>> dev
   return (
     <>
     <ThemeProvider theme={devToolTheme}>
       <CssBaseline />
       <Grid 
       container
+<<<<<<< HEAD
       spacing ={2}
       >
         <Grid item xs={6} sm={2.5}>
+=======
+      >
+        <Grid item>
+>>>>>>> dev
         <Window />
         </Grid>
        
