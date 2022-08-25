@@ -24,21 +24,38 @@ export function Window() {
 
   const renderChildren:JSX.Element[] = [];
   backlogChildren.forEach((child) => {
-    renderChildren.push(<ListItemButton><ListItemText primary={`${child}`}></ListItemText></ListItemButton>)
+    renderChildren.push(<ListItemButton sx={{
+      bgcolor: 'primary.dark',
+      border: 1,
+      borderColor: 'primary.main',
+      borderRadius: 1
+    }}
+    >
+    <ListItemText sx={{
+      color: 'primary.main'
+    }} primary={`${child}`}></ListItemText>
+    </ListItemButton>
+    )
   })
 
   return (
     <List
       sx={{ 
-        width: '100%', 
-        maxWidth: 270, 
+        width: '90%', 
         bgcolor: 'background.paper',
         
        }}
       component="nav"
     >
-      <ListItemButton onClick={handleClick}>
-        <ListItemText primary="Scene" />
+      <ListItemButton 
+      sx={{
+        bgcolor: 'primary.main',
+        borderRadius: 1
+      }}
+      onClick={handleClick}>
+        <ListItemText sx={{
+          color: 'primary.dark'
+        }} primary="Scene" />
         {open ? <ExpandLess /> : <ExpandMore />}
       </ListItemButton>
       <Collapse in={open} timeout="auto" unmountOnExit>

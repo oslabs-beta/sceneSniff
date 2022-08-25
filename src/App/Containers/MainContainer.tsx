@@ -10,6 +10,9 @@ import {devToolTheme} from "../Themes/themes";
 
 export const MainContainer = (): JSX.Element => {
 
+  // https://tailwindcss.com/ check this out in combination with MUI while I am gone lol
+  // THANKS!! 👍
+  
   return (
     <>
     <ThemeProvider theme={devToolTheme}>
@@ -18,12 +21,12 @@ export const MainContainer = (): JSX.Element => {
       container
       spacing ={2}
       >
-        <Grid item xs={2.5}>
+        <Grid item xs={6} sm={2.5}>
         <Window />
         </Grid>
        
         
-        <Grid item xs={9.5}>
+        <Grid item xs={12} sm={9.5}>
           <Model />
         </Grid>
 

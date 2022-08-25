@@ -1,6 +1,8 @@
 import * as React from 'react';
 import { useState } from 'react';
-import { RgbaColorPicker } from "react-colorful";
+import { RgbaColorPicker } from "react-colorful"
+import ToggleButton from '@mui/material/ToggleButton';
+import Collapse from '@mui/material/Collapse';
 import { Typography } from '@mui/material';
 import Slider from '@mui/material/Slider';
 import Divider from '@mui/material/Divider';
@@ -11,8 +13,7 @@ import Grid from '@mui/material/Grid';
 export function Model() {
   const [colorMaterial, setColorMaterial] = useState({ r: 200, g: 150, b: 35, a: 0.5 });
   const [colorLights, setColorLights] = useState({ r: 200, g: 150, b: 35, a: 0.5 });
-
-
+  const [selected, setSelected] = useState(false);
   
   return (
     <>
@@ -20,6 +21,7 @@ export function Model() {
     sx={{
       backgroundColor: 'primary.dark',
       gridAutoFlow: 'row',
+      borderRadius: 1
     }}
       >
   <Grid item xs={12} sm={6}>
@@ -63,16 +65,32 @@ export function Model() {
     <Divider />
     <Typography color='primary.light'>Type: </Typography>
     <Typography color='primary.light'>Color: </Typography>
-    <RgbaColorPicker color={colorMaterial} onChange={setColorMaterial} />
-    <div className="value">{JSON.stringify(colorMaterial)}</div>
+    <ToggleButton
+      sx={{
+        backgroundColor: `rgb(${colorMaterial.r}, ${colorMaterial.g}, ${colorMaterial.b})`,
+        opacity: colorMaterial.a
+      }}
+      value="check"
+      selected={selected}
+      onChange={() => {
+        setSelected(!selected);
+      }}
+    >
+    </ToggleButton>
+    <Collapse in={selected} timeout="auto" unmountOnExit> 
+      <RgbaColorPicker color={colorMaterial} onChange={setColorMaterial} />
+      <div className="value">{JSON.stringify(colorMaterial)}</div>
+    </Collapse>
   </Grid>
 
     
   <Grid item xs={12} sm={6}>
     <Typography variant="h6" fontWeight='fontWeightBold' color='primary.main'>Lights</Typography>
     <Typography color='primary.light'>Color</Typography>
+
     <RgbaColorPicker color={colorLights} onChange={setColorLights} />
     <div className="value">{JSON.stringify(colorLights)}</div>
+    
     <Typography color='primary.light'>Intensity: <MuiInput
             size="small"
             inputProps={{
