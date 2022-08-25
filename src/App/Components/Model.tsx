@@ -11,9 +11,10 @@ import Grid from '@mui/material/Grid';
 
 
 export function Model() {
-  const [colorMaterial, setColorMaterial] = useState({ r: 200, g: 150, b: 35, a: 0.5 });
-  const [colorLights, setColorLights] = useState({ r: 200, g: 150, b: 35, a: 0.5 });
+  const [colorMaterial, setColorMaterial] = useState({ r: 200, g: 150, b: 35, a: 1 });
+  const [colorLights, setColorLights] = useState({ r: 255, g: 255, b: 255, a: 1 });
   const [selected, setSelected] = useState(false);
+  const [selected2, setSelected2] = useState(false);
   
   return (
     <>
@@ -62,7 +63,6 @@ export function Model() {
 
   <Grid item xs={12} sm={6}>
     <Typography variant="h6" fontWeight="fontWeightBold" color='primary.main'>Material</Typography>
-    <Divider />
     <Typography color='primary.light'>Type: </Typography>
     <Typography color='primary.light'>Color: </Typography>
     <ToggleButton
@@ -87,11 +87,23 @@ export function Model() {
   <Grid item xs={12} sm={6}>
     <Typography variant="h6" fontWeight='fontWeightBold' color='primary.main'>Lights</Typography>
     <Typography color='primary.light'>Color</Typography>
-
+    <ToggleButton
+      sx={{
+        backgroundColor: `rgb(${colorLights.r}, ${colorLights.g}, ${colorLights.b})`,
+        opacity: colorLights.a
+      }}
+      value="check"
+      selected={selected2}
+      onChange={() => {
+        setSelected2(!selected2);
+      }}
+    >
+       </ToggleButton>
+    <Collapse in={selected2} timeout="auto" unmountOnExit> 
     <RgbaColorPicker color={colorLights} onChange={setColorLights} />
     <div className="value">{JSON.stringify(colorLights)}</div>
-    
-    <Typography color='primary.light'>Intensity: <MuiInput
+    </Collapse>
+    {/* <Typography color='primary.light'>Intensity: <MuiInput
             size="small"
             inputProps={{
               step: 1,
@@ -100,7 +112,7 @@ export function Model() {
               type: 'number',
               'aria-labelledby': 'input-slider',
             }}
-          /></Typography>
+          /></Typography> */}
   </Grid>
 
   <Grid item xs={12} sm={6}>
