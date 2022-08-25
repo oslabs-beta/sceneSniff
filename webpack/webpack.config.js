@@ -26,6 +26,11 @@ module.exports = {
             exclude: /node_modules/
          },
          {
+            test: /.(css|scss)$/,
+            exclude: /node_modules/,
+            use: ['style-loader', 'css-loader', 'postcss-loader'],
+          },
+         {
             test: /\.tsx?$/,
             loader: "ts-loader",
             exclude: /node_modules/,
