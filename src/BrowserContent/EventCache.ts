@@ -1,14 +1,18 @@
-import createJSON from './json'
-import utilities from './utilities'
+import { Mesh, Object3D, Scene, WebGLRenderer } from 'three'
 
-export default class EventCache extends EventTarget {
-  scenes: Set<object>
+console.log('EVENT CACHE IS LOADED');
+export default (() => {
+  console.log('EVENT CACHE IS LOADING')
+  return class EventCache extends EventTarget {
+  scenes: Set<Scene>
   renderers: any[]
   eventMap: Map<string, object>
   resourcesSent: Map<any, any>
   resources: { images: {}, attributes: {}, devtoolsConfig: {} }
+  utilities: any
 
   constructor() {
+    console.log('EVENT CACHE INITIATED')
     super();
     // Holds entire event if event is a scene, Set prevents it from being duplicated or overwritten.
     this.scenes = new Set();
@@ -16,6 +20,12 @@ export default class EventCache extends EventTarget {
     this.renderers = [];
     // If event is a function that renders, set in map with key as created ID and event as value.
     this.eventMap = new Map();
+    console.log('LOADING UTILITIES')
+    //@ts-ignore
+    console.log('UTILITIES: ', utilities)
+    //@ts-ignore
+    this.utilities = utilities;
+    console.log('UTILITIES LOADED')
 
     // STILL UNCERTAIN ON THIS.
     this.resourcesSent = new Map();
@@ -31,35 +41,38 @@ export default class EventCache extends EventTarget {
     return this.eventMap.get(id);
   }
 
-  getOverview(type: string): [{ key: string }] {
-    const events: [{ key: string, key1: string, key2: string }] = [];
+  getOverview(type: string): { name: string, uuid: string, baseType: string }[] {
+    type eventObject = { name: string, uuid: string, baseType: string }
+    const events: eventObject[] = [];
     const eventsAdded = new Set();
 
     for (let scene of this.scenes) {
-      if (type === 'scenes') addEvent(scene);
+      if (type === 'scenes') this.addEvent(scene, events, eventsAdded);
       else {
-        utilities.forEachDependency(scene, event => {
+        this.utilities.forEachDependency(scene, ( event: any ) => {
           this.registerEvent(event);
           const valid = type === 'geometries' ? (event.isGeometry || event.isBufferGeometry) :
-            type === 'materials' ? event.isMaterial :
-              type === 'textures' ? event.isTexture : false;
+                        type === 'materials' ? event.isMaterial :
+                        type === 'textures' ? event.isTexture : false;
           if (valid && !eventsAdded.has(event.uuid)) {
-            addEvent(event);
+            this.addEvent(event, events, eventsAdded);
           }
         }, {
           recursive: true,
         });
       }
     }
-    function addEvent(event: any) {
-      events.push({ name: event.name, uuid: event.uuid, baseType: utilities.getBaseType(event) });
-      eventsAdded.add(event.uuid);
-    }
     return events;
   }
 
+
+  addEvent(event: any, events: { name: string, uuid: string, baseType: string }[], eventsAdded: Set<any>) {
+    events.push({ name: event.name, uuid: event.uuid, baseType: this.utilities.getBaseType(event) });
+    eventsAdded.add(event.uuid);
+  }
+
   // Adds event to respective list so that it can be referenced.
-  add(event: any): (string | undefined) {
+  add<O extends WebGLRenderer>(event: O | Scene | Mesh): (string | undefined) {
     // Checks if event was given.
     if (!event) {
       console.log('Event is empty');
@@ -73,12 +86,12 @@ export default class EventCache extends EventTarget {
       return;
     }
     // Checks if event called is the scene.
-    if (event.isScene) {
+    if ("isScene" in event && event.isScene) {
       // Add scene event with all it's attributes to the this.scenes Set.
       this.scenes.add(event);
       // Register event in the eventMap and patchJSON func on to it if it doesn't have one.
       this.registerEvent(event);
-    } else if (typeof event.render === 'function') {
+    } else if ("render" in event && typeof event.render === 'function') {
       // If event is a function, skip the scene step and place directly inside eventMap.
       this.eventMap.set(id, event);
     } else {
@@ -89,9 +102,9 @@ export default class EventCache extends EventTarget {
   }
 
   // Obtain or create a unique ID for each event so that it can be referenced later on in the code.
-  getID(event: any): (string | undefined) {
+  getID<O extends WebGLRenderer>(event: O | Scene | Mesh): (string | undefined) {
     // Checks if event is a render function.
-    if (typeof event.render === 'function') {
+    if ("render" in event && typeof event.render === 'function') {
       // Checks if event is already in the renderers array.
       let eventRenderIndex: number = this.renderers.indexOf(event);
       // If the event was not in the array, it should have returned a value of -1.
@@ -103,14 +116,14 @@ export default class EventCache extends EventTarget {
       }
       // Return custom ID to use as a reference.
       return `eventRender-${eventRenderIndex}`;
-    } else if (event.uuid) {
+    } else if ("uuid" in event && event.uuid) {
       // If the event isn't a function and has a uuid, we want to return that ID for future use.
       return event.uuid;
     }
   }
 
   // Places the event in the eventMap for reference and patches and methods that are missing from the event with patchToJSON().
-  registerEvent(event: any): void {
+  registerEvent(event: Scene): void {
     // Grab the uuid from the event with object destructering.
     const { uuid } = event;
     // If the uuid exists and the event is not yet in the eventMap(Meaning it was most likely a scene event).
@@ -129,14 +142,15 @@ export default class EventCache extends EventTarget {
     // If event.patched doesn't exists, that means that it has not been patched yet with JSON.
     if (!event.patched) {
       // Create prop with key toJSON and set it equal to the createJSON function.
-      event.toJSON = createJSON; // THIS NEEDS ADJUSTING
+      //@ts-ignore
+      event.toJSON = createJSON;
       // Assign the key patched to true on the event obj so that it only happens once.
       event.patched = true;
     }
   }
 
   // Iterates over events, serializes them, and returns them to the user.
-  getSerializedEvent(id: any): any {
+  getSerializedEvent(id: string): any {
     // Obtain the event that is requested from the eventMap by searching with id.
     const reqEvent: any = this.getEvent(id);
     // If requested event does not exist, return undefined.
@@ -144,6 +158,7 @@ export default class EventCache extends EventTarget {
     // If the ID passed in is a created ID instead of a uuid and the id has a match in the regex string, run this conditional.
     if (/eventRender/.test(id)) {
       // Run the createJSON func with the 'this' context of the reqEvent.
+      //@ts-ignore
       const data: any = createJSON.call(reqEvent);
       // Set data type to renderer due to this being a render function.
       data.type = 'renderer';
@@ -153,7 +168,7 @@ export default class EventCache extends EventTarget {
       return data;
     }
     // Create object that will cache all of the 3Dobject in the event's attributes.
-    const meta: { geometries: string[], materials: string[], textures: string[], shapes: string[], devtoolsConfig: { serializeChildren: boolean } } = {
+    const meta: any = {
       geometries: [],
       materials: [],
       textures: [],
@@ -177,10 +192,10 @@ export default class EventCache extends EventTarget {
     this.postSerializedEvent(meta);
 
     type metaIterator = {
-      geometries: string[],
-      materials: string[],
-      textures: string[],
-      shapes: string[]
+      geometries: any[],
+      materials: any[],
+      textures: any[],
+      shapes: any[]
     }
 
     // type resourceType = number
@@ -213,7 +228,7 @@ export default class EventCache extends EventTarget {
 
   // Geomerty attributes are robust. This method moved them all into their own category
   // so that they don't slow everything down.
-  postSerializedEvent(data: { geometries: string[], materials: string[], textures: string[], shapes: string[], devtoolsConfig: { serializeChildren: boolean } }): void {
+  postSerializedEvent(data: any): void {
     // Loop through the geometry values in the meta object.
     for (let geo of (data.geometries)) {
       // If data on that value exists.
@@ -228,3 +243,4 @@ export default class EventCache extends EventTarget {
     }
   }
 };
+});

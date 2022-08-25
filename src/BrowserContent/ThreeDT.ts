@@ -1,47 +1,51 @@
-import EventCache from './EventCache';
+import { Object3D, Scene, Mesh, WebGLRenderer } from 'three';
 
-export default class ThreeDT {
-  target: any
-  eventCache: EventCache
+export default class ThreeDT<T extends EventTarget> {
+  target: T
+  eventCache: any
   recentEvents: Set<string>
 
-  constructor(target: any) {
+  constructor(target: T) {
+    
+    console.log('TESTING THREEDT');
     this.target = target;
-
+    //@ts-ignore
+    console.log(EventCache);
+    //@ts-ignore EventCache instantiated in injected script
     this.eventCache = new EventCache();
+    console.log(this.eventCache);
     this.recentEvents = new Set();
 
     console.log('DEVTOOL LOADED')
 
-    this.target.addEventListener('observe', (e: any): void => {
+    this.target.addEventListener('observe', (( e: CustomEvent ) => {
       console.log('   EVENT: ', e)
       this.observe(e.detail);
-    })
-    this.target.addEventListener('register', (e: any) => { console.log('REGISTER') })
-    this.target.addEventListener('select', (e: any) => { console.log('SELECT') })
+    }) as EventListener)
+    this.target.addEventListener('register', ((e: CustomEvent) => { console.log('REGISTER') }) as EventListener)
+    this.target.addEventListener('select', ((e: CustomEvent) => { console.log('SELECT') }) as EventListener)
 
-    this.target.addEventListener('_request-event', (e: any): void => this.requestEvent(e.detail && e.detail.uuid));
+    this.target.addEventListener('_request-event', ((e: CustomEvent): void => this.requestEvent(e.detail && e.detail.uuid)) as EventListener);
   }
 
-
   // Adds observe events to the cache.
-  observe(event: object): (void | undefined) {
+  observe<O extends WebGLRenderer>(event: O | Scene | Mesh): void {
     // Adds event to the necessary caching objects and returns the event uuid.
     const uuid: (string | undefined) = this.eventCache.add(event);
     // If no ID, return an error.
     if (!uuid) {
       console.log('No uuid on event');
-      return;
-    }
-    // Add stuff here for changing objects
+    } else {
+      // Add stuff here for changing objects
 
-    // Add the new event uuid to the recentEvents Set.
-    this.recentEvents.add(uuid);
+      // Add the new event uuid to the recentEvents Set.
+      this.recentEvents.add(uuid);
+    }
   }
 
 
   // When a request event is heard, requestEvent is invoked with the uuid of desired event.
-  requestEvent(uuid: number): void {
+  requestEvent(uuid: string): void {
     // Create a variable 'data' and set it equal to the serialized version of the requested event from cache.
     let data: any[] = this.eventCache.getSerializedEvent(uuid);
     // If getSerializedEvent returned data without any errors.
@@ -70,4 +74,5 @@ export default class ThreeDT {
       });
     }
   }
-}
+  }
+;

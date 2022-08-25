@@ -1,4 +1,7 @@
+import EventCache from '../BrowserContent/EventCache';
 import ThreeDT from '../BrowserContent/ThreeDT'
+import utilities from '../BrowserContent/utilities';
+import createJSON from '../BrowserContent/json';
 
 type Content = {
   port: chrome.runtime.Port
@@ -35,11 +38,24 @@ export default class ContentConnector extends EventTarget {
 
       //Notify the browser __THREE_DEVTOOLS__ that devtools has been loaded and is waiting for a reload
       if ( request.type === 'devtoolLoaded' ) {
+        console.log('LOADING...')
+        //inject ThreeDT script to the inspected document
         chrome.devtools.inspectedWindow.eval(
-          //inject ThreeDT script to the inspected document
-          `const devtools = new (${ThreeDT})(window.__THREE_DEVTOOLS__);`
+          `console.log("BEFORE");
+          const utilities = (${utilities})();
+            const EventCache = (${EventCache})();
+            console.log('LOADING JSON');
+            console.log(createJSON);
+            const createJSON = (${createJSON})();
+            console.log('EVENT')
+            console.log(window.__THREE_DEVTOOLS__);
+            console.log(${ThreeDT})
+            const devtools = new (${ThreeDT})(window.__THREE_DEVTOOLS__);
+            console.log('AFTER');
+            
+            window.__THREE_DEVTOOLS__.dispatchEvent(new CustomEvent(\'devtools-ready\'));`
         )
-        chrome.devtools.inspectedWindow.eval('window.__THREE_DEVTOOLS__.dispatchEvent(new CustomEvent(\'devtools-ready\'));' );
+        console.log('LOADING WINDOW...')
       }
     })
   }

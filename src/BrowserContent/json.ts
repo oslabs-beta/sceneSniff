@@ -1,15 +1,18 @@
-import THREE from 'three';
 
-export default function createJSON(meta: object) {
-  const isDevtoolsSerialization = meta => !!(meta && meta.devtoolsConfig);
-  const isObject = o => Object.prototype.toString.call(o) === '[object Object]';
+// @ts-nocheck
+import THREE from 'three';
+import utilities from './utilities';
+
+export default (() => {
+  const isDevtoolsSerialization: any = meta => !!(meta && meta.devtoolsConfig);
+  const isObject: any = o => Object.prototype.toString.call(o) === '[object Object]';
   const tempPosition = new THREE.Vector3();
   const tempRotation = new THREE.Quaternion();
   const tempScale = new THREE.Vector3();
   const tempEuler = new THREE.Euler();
-
-  return function InstrumentedToJSON(meta) {
-    console.log('TOJSON2');
+  const utils = utilities();
+  
+  return function createJSON(meta: any) {
     /**
      * The instrumented version of entity's `toJSON` method,
      * used to patch because:
@@ -169,4 +172,4 @@ export default function createJSON(meta: object) {
 
     return data;
   }
-};
+});
