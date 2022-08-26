@@ -16,16 +16,17 @@
 			const renderer = new THREE.WebGLRenderer();
 			renderer.setSize( window.innerWidth, window.innerHeight );
 			document.body.appendChild( renderer.domElement );
-
-			const geometry = new THREE.BoxGeometry();
+// 3, 3, 3
+			const geometry = new THREE.BoxGeometry(3, 3, 3);
 			const material = new THREE.MeshBasicMaterial( { color: 0xcf27ff } );
 			const cube = new THREE.Mesh( geometry, material );
 			const cube2 = new THREE.Mesh( geometry, new THREE.MeshBasicMaterial( { color: 0xffffff } ) );
-			const cube3 = new THREE.Mesh( geometry, new THREE.MeshBasicMaterial( { color: 0x000000 } ) );
+			const cube3 = new THREE.Mesh( geometry, new THREE.MeshBasicMaterial( { color: 'blue' } ) );
 			scene.add( cube );
 			scene.add( cube2 );
 			scene.add( cube3 );
 
+			camera.position.x = 2;
 			camera.position.z = 5;
 
 			function animate() {
