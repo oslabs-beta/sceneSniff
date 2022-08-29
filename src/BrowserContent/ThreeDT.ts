@@ -35,9 +35,11 @@ export default class ThreeDT<T extends EventTarget> {
     } else {
       // Add stuff here for changing objects
 
+
       // Add the new event uuid to the recentEvents Set.
       this.recentEvents.add(uuid);
     }
+    this.requestOverview('scenes');
   }
 
 
@@ -56,7 +58,7 @@ export default class ThreeDT<T extends EventTarget> {
     try {
       const data: any[] = this.eventCache.getOverview(type);
       console.log('data:', data);
-      this.sendEvent('overview', {
+      this.sendEvent('_request-overview', {
         type,
         events: data,
       });

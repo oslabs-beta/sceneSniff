@@ -49,14 +49,15 @@ export default class ContentConnector extends EventTarget {
             
             window.__THREE_DEVTOOLS__.dispatchEvent(new CustomEvent(\'devtools-ready\'));`
         )
-        this.getOverview('scene');
+      } else if ( request.type === '_request-overview' ) {
+        console.log('Request: ', request );
       }
     })
   }
 
   //Grabbing the overviewing scene/s on the browser
   getOverview( type: string ) {
-    this.postMessage( '_getOverview', { type } )
+    this.postMessage( '_request-overview', { type } )
   }
 
   

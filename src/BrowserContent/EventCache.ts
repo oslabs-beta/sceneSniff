@@ -38,7 +38,6 @@ export default (() => {
     type eventObject = { name: string, uuid: string, baseType: string }
     const events: eventObject[] = [];
     const eventsAdded = new Set();
-
     for (let scene of this.scenes) {
       if (type === 'scenes') this.addEvent(scene, events, eventsAdded);
       else {
@@ -81,6 +80,7 @@ export default (() => {
     if ("isScene" in event && event.isScene) {
       // Add scene event with all it's attributes to the this.scenes Set.
       this.scenes.add(event);
+      console.log('scenes in cache:', this.scenes)
       // Register event in the eventMap and patchJSON func on to it if it doesn't have one.
       this.registerEvent(event);
     } else if ("render" in event && typeof event.render === 'function') {
@@ -124,6 +124,7 @@ export default (() => {
       this.JSONpatch(event);
       // Set the uuid and event in the eventMap for future use.
       this.eventMap.set(uuid, event);
+      console.log('eventMap: ', this.eventMap);
     }
   }
 
