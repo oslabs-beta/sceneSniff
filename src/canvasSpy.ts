@@ -28,6 +28,7 @@ const target = new class ThreeTarget extends EventTarget {
   dispatchEvent(event) {
     console.log('BACKLOG: ', this[$backlog])
     if (this[$devtoolsReady] || event.type === 'devtools-ready') {
+      console.log('IS READY DISPATCHING');
       super.dispatchEvent(event);
     } else {
       this[$backlog].push(event);
