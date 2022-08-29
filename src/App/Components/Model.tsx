@@ -1,12 +1,8 @@
 import * as React from 'react';
 import { useState } from 'react';
-<<<<<<< HEAD
 import { RgbaColorPicker } from "react-colorful"
 import ToggleButton from '@mui/material/ToggleButton';
 import Collapse from '@mui/material/Collapse';
-=======
-import Box from '@mui/material/Box';
->>>>>>> dev
 import { Typography } from '@mui/material';
 import Slider from '@mui/material/Slider';
 import Divider from '@mui/material/Divider';
@@ -15,16 +11,11 @@ import Grid from '@mui/material/Grid';
 
 
 export function Model() {
-<<<<<<< HEAD
   const [colorMaterial, setColorMaterial] = useState({ r: 200, g: 150, b: 35, a: 1 });
   const [colorLights, setColorLights] = useState({ r: 255, g: 255, b: 255, a: 1 });
   const [selected, setSelected] = useState(false);
   const [selected2, setSelected2] = useState(false);
   
-=======
-  const [modelTitle, setModelTitle] = useState('Model');
-
->>>>>>> dev
   return (
     <>
 <Grid container spacing = {2}
@@ -34,16 +25,11 @@ export function Model() {
       borderRadius: 1
     }}
       >
-<<<<<<< HEAD
   <Grid item xs={12} sm={6}>
     <Typography variant='h6' fontWeight='bold' color='primary.main'>Geometry</Typography>
     <Typography color='primary.light'>Type: </Typography>
     <Typography color='primary.light'>Size: </Typography>
     <Typography color='primary.light'>Width: </Typography>
-=======
-    <Typography variant='h4' align='center'>{modelTitle}</Typography>
-    <Typography variant='h6'>Size</Typography>
->>>>>>> dev
     <Slider
         sx = {{
           width: 1/2

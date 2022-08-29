@@ -41,18 +41,12 @@ export function Window() {
   return (
     <List
       sx={{ 
-<<<<<<< HEAD
         width: '90%', 
-=======
-        width: '100%', 
-        maxWidth: 270, 
->>>>>>> dev
         bgcolor: 'background.paper',
         
        }}
       component="nav"
     >
-<<<<<<< HEAD
       <ListItemButton 
       sx={{
         bgcolor: 'primary.main',
@@ -66,24 +60,6 @@ export function Window() {
       </ListItemButton>
       <Collapse in={open} timeout="auto" unmountOnExit>
         {renderChildren}
-=======
-      <ListItemButton onClick={handleClick}>
-        <ListItemText primary="Scene" />
-        {open ? <ExpandLess /> : <ExpandMore />}
-      </ListItemButton>
-      <Collapse in={open} timeout="auto" unmountOnExit>
-      <ListItemButton onClick={() => {console.log('clicked')}}>
-        <ListItemText primary="Cube" />
-      </ListItemButton>
-      <ListItemButton>
-        <ListItemText primary="Sphere" />
-      </ListItemButton>
-        <List component="div" disablePadding>
-          <ListItemButton>
-            <ListItemText primary="Pyramid" />
-          </ListItemButton>
-        </List>
->>>>>>> dev
       </Collapse>
     </List>
   );
