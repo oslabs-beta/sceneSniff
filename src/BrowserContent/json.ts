@@ -1,4 +1,3 @@
-
 // @ts-nocheck
 
 export default (() => {
@@ -9,10 +8,7 @@ export default (() => {
   const tempScale = new THREE.Vector3();
   const tempEuler = new THREE.Euler();
   const utils = utilities;
-  
   return function createJSON(meta: any) {
-
-    console.log('LOADING JSON...')
     /**
      * The instrumented version of entity's `toJSON` method,
      * used to patch because:

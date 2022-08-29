@@ -2,7 +2,6 @@
 import { Scene } from "three";
 
 export default (()=> {
-  console.log('TESTING UTIL')
   const utilities = {
 
     getTargetAndKey: (event: any, property: any) => {
