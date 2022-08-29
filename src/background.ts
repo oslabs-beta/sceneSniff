@@ -33,8 +33,15 @@ chrome.runtime.onConnect.addListener( ( port ) => {
   } );
 } );
 
-chrome.runtime.onMessage.addListener( (req, res) => {
-  console.log('BACKGROUND: ', req);
+chrome.runtime.onMessage.addListener( (eventOverviewObj, sender) => {
+  console.log('getOverview Data: ', eventOverviewObj);
+  if (sender.tab) {
+    const tabId = sender.tab.id;
+    if (connections.has(tabId)) {
+      connections.get(tabId).postMessage(eventOverviewObj);
+    }
+  }
+  return true;
 })
 
 //When refreshed, check if tabId exists

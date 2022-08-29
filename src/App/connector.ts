@@ -49,6 +49,7 @@ export default class ContentConnector extends EventTarget {
             
             window.__THREE_DEVTOOLS__.dispatchEvent(new CustomEvent(\'devtools-ready\'));`
         )
+        this.getOverview('scene');
       }
     })
   }
