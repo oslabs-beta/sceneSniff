@@ -24,7 +24,7 @@ export default (() => {
     //@ts-ignore
     console.log('UTILITIES: ', utilities)
     //@ts-ignore
-    this.utilities = utilities;
+    this.utilities = utilities();
     console.log('UTILITIES LOADED')
 
     // STILL UNCERTAIN ON THIS.
@@ -64,7 +64,6 @@ export default (() => {
     }
     return events;
   }
-
 
   addEvent(event: any, events: { name: string, uuid: string, baseType: string }[], eventsAdded: Set<any>) {
     events.push({ name: event.name, uuid: event.uuid, baseType: this.utilities.getBaseType(event) });
