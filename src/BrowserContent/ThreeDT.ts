@@ -21,6 +21,7 @@ export default class ThreeDT<T extends EventTarget> {
     this.target.addEventListener('register', ((e: CustomEvent) => { console.log('REGISTER') }) as EventListener)
     this.target.addEventListener('select', ((e: CustomEvent) => { console.log('SELECT') }) as EventListener)
 
+    this.target.addEventListener('_request-overview', ((e: CustomEvent) => this.requestOverview(e.detail && e.detail.type)) as EventListener);
     this.target.addEventListener('_request-event', ((e: CustomEvent): void => this.requestEvent(e.detail && e.detail.uuid)) as EventListener);
   }
 
@@ -43,7 +44,7 @@ export default class ThreeDT<T extends EventTarget> {
   // When a request event is heard, requestEvent is invoked with the uuid of desired event.
   requestEvent(uuid: string): void {
     // Create a variable 'data' and set it equal to the serialized version of the requested event from cache.
-    let data: any[] = this.eventCache.getSerializedEvent(uuid);
+    let data: any = this.eventCache.getSerializedEvent(uuid);
     // If getSerializedEvent returned data without any errors.
     if (data) {
       // Send that data and type to the send() method. This will post the event data to the browser window.
@@ -51,9 +52,21 @@ export default class ThreeDT<T extends EventTarget> {
     }
   }
 
+  requestOverview(type: string): void {
+    try {
+      const data: any[] = this.eventCache.getOverview(type);
+      this.sendEvent('overview', {
+        type,
+        events: data,
+      });
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
 
   // Sends the serialized event to the window so that the user can see the data of the requested event.
-  sendEvent(type: string, data: any[]): void {
+  sendEvent(type: string, data: {type: string, events: any[]}): void {
     try {
       // If data and type provided successfully, post to the browser window.
       window.postMessage({

@@ -58,7 +58,6 @@ export default (() => {
     return events;
   }
 
-
   addEvent(event: any, events: { name: string, uuid: string, baseType: string }[], eventsAdded: Set<any>) {
     events.push({ name: event.name, uuid: event.uuid, baseType: this.utilities.getBaseType(event) });
     eventsAdded.add(event.uuid);

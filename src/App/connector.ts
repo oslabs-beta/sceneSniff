@@ -1,7 +1,7 @@
 import EventCache from '../BrowserContent/EventCache';
 import ThreeDT from '../BrowserContent/ThreeDT'
 import utilities from '../BrowserContent/utilities';
-import createJSON from '../BrowserContent/json';
+import createJSON from '../BrowserContent/createJSON';
 import THREE from '../BrowserContent/three'
 
 type Content = {

@@ -16,6 +16,7 @@ const target = new class ThreeTarget extends EventTarget {
     this[$devtoolsReady] = false;
     this[$backlog] = [];
     this.addEventListener('devtools-ready', e => {
+      console.log('DEV TOOL IS READY')
       this[$devtoolsReady] = true;
       for (let event of this[$backlog]) {
         console.log('DISPATCHING: ', event)
@@ -25,10 +26,11 @@ const target = new class ThreeTarget extends EventTarget {
   }
   
   dispatchEvent(event) {
-    console.log('BACKLOG: ', this[$backlog])
     if (this[$devtoolsReady] || event.type === 'devtools-ready') {
+      console.log('AFTER READY: ', event);
       super.dispatchEvent(event);
     } else {
+      console.log('BEFORE READY: ', event)
       this[$backlog].push(event);
     }
   }
