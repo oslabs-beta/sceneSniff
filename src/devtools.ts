@@ -1,4 +1,4 @@
-chrome.devtools.panels.create("Three Dev Tool", "", "./panel.html");
+chrome.devtools.panels.create("sceneSniff", "", "./panel.html");
 
 // chrome.tabs.query({ currentWindow: true, active: true }, function (tabArray) {
 //   console.log("tab: ", tabArray[0].id);

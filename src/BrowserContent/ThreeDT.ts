@@ -59,6 +59,7 @@ export default class ThreeDT<T extends EventTarget> {
   requestOverview(type: string): void {
     try {
       const data: any[] = this.eventCache.getOverview(type);
+      console.log('data:', data);
       this.sendEvent('overview', {
         type,
         events: data,
