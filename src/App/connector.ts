@@ -2,6 +2,7 @@ import EventCache from '../BrowserContent/EventCache';
 import ThreeDT from '../BrowserContent/ThreeDT'
 import utilities from '../BrowserContent/utilities';
 import createJSON from '../BrowserContent/json';
+import * as THREE from 'three';
 
 type Content = {
   port: chrome.runtime.Port
@@ -41,11 +42,10 @@ export default class ContentConnector extends EventTarget {
         console.log('LOADING...')
         //inject ThreeDT script to the inspected document
         chrome.devtools.inspectedWindow.eval(
-          `console.log("BEFORE");
-          const utilities = (${utilities})();
+            `console.log("BEFORE");
+            const utilities = (${utilities})();
             const EventCache = (${EventCache})();
             console.log('LOADING JSON');
-            console.log(createJSON);
             const createJSON = (${createJSON})();
             console.log('EVENT')
             console.log(window.__THREE_DEVTOOLS__);

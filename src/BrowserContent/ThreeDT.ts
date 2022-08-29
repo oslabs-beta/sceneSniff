@@ -74,5 +74,4 @@ export default class ThreeDT<T extends EventTarget> {
       });
     }
   }
-  }
-;
+};

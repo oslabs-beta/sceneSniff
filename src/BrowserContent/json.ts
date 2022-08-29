@@ -1,7 +1,5 @@
 
 // @ts-nocheck
-import THREE from 'three';
-import utilities from './utilities';
 
 export default (() => {
   const isDevtoolsSerialization: any = meta => !!(meta && meta.devtoolsConfig);
@@ -10,9 +8,11 @@ export default (() => {
   const tempRotation = new THREE.Quaternion();
   const tempScale = new THREE.Vector3();
   const tempEuler = new THREE.Euler();
-  const utils = utilities();
+  const utils = utilities;
   
   return function createJSON(meta: any) {
+
+    console.log('LOADING JSON...')
     /**
      * The instrumented version of entity's `toJSON` method,
      * used to patch because:
