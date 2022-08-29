@@ -7,19 +7,15 @@ export default class ThreeDT<T extends EventTarget> {
 
   constructor(target: T) {
     
-    console.log('TESTING THREEDT');
     this.target = target;
     //@ts-ignore
-    console.log(EventCache);
     //@ts-ignore EventCache instantiated in injected script
     this.eventCache = new EventCache();
-    console.log(this.eventCache);
     this.recentEvents = new Set();
 
-    console.log('DEVTOOL LOADED')
 
     this.target.addEventListener('observe', (( e: CustomEvent ) => {
-      console.log('   EVENT: ', e)
+      console.log('OBSERVE')
       this.observe(e.detail);
     }) as EventListener)
     this.target.addEventListener('register', ((e: CustomEvent) => { console.log('REGISTER') }) as EventListener)

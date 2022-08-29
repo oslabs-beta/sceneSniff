@@ -1,8 +1,6 @@
 import { Mesh, Object3D, Scene, WebGLRenderer } from 'three'
 
-console.log('EVENT CACHE IS LOADED');
 export default (() => {
-  console.log('EVENT CACHE IS LOADING')
   return class EventCache extends EventTarget {
   scenes: Set<Scene>
   renderers: any[]
@@ -12,7 +10,6 @@ export default (() => {
   utilities: any
 
   constructor() {
-    console.log('EVENT CACHE INITIATED')
     super();
     // Holds entire event if event is a scene, Set prevents it from being duplicated or overwritten.
     this.scenes = new Set();
@@ -20,12 +17,8 @@ export default (() => {
     this.renderers = [];
     // If event is a function that renders, set in map with key as created ID and event as value.
     this.eventMap = new Map();
-    console.log('LOADING UTILITIES')
-    //@ts-ignore
-    console.log('UTILITIES: ', utilities)
     //@ts-ignore
     this.utilities = utilities;
-    console.log('UTILITIES LOADED')
 
     // STILL UNCERTAIN ON THIS.
     this.resourcesSent = new Map();
