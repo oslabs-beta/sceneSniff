@@ -23,6 +23,7 @@ export default class ThreeDT<T extends EventTarget> {
 
     this.target.addEventListener('_request-overview', ((e: CustomEvent) => this.requestOverview(e.detail && e.detail.type)) as EventListener);
     this.target.addEventListener('_request-event', ((e: CustomEvent): void => this.requestEvent(e.detail && e.detail.uuid)) as EventListener);
+    this.target.addEventListener('_request-scene-objects', ((e: CustomEvent): void => this.requestSceneObjects(e.detail && e.detail.uuid)) as EventListener);
   }
 
   // Adds observe events to the cache.
@@ -39,18 +40,32 @@ export default class ThreeDT<T extends EventTarget> {
       // Add the new event uuid to the recentEvents Set.
       this.recentEvents.add(uuid);
     }
-    this.requestOverview('scenes');
+    // this.requestOverview('scenes');
+    if (uuid) this.requestSceneObjects(uuid);
   }
 
+  requestSceneObjects(uuid: string) {
+    try {
+      const data: any[] = this.eventCache.requestSceneObjects(uuid);
+      console.log('data from reqSceneObj: ', data)
+      this.sendEvent('_request-scene-objects', {
+        type: uuid,
+        events: data,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
   // When a request event is heard, requestEvent is invoked with the uuid of desired event.
   requestEvent(uuid: string): void {
+    console.log('In requestEvent')
     // Create a variable 'data' and set it equal to the serialized version of the requested event from cache.
     let data: any = this.eventCache.getSerializedEvent(uuid);
     // If getSerializedEvent returned data without any errors.
     if (data) {
       // Send that data and type to the send() method. This will post the event data to the browser window.
-      this.sendEvent('event', data);
+      this.sendEvent('_request-event', data);
     }
   }
 
@@ -62,6 +77,7 @@ export default class ThreeDT<T extends EventTarget> {
         type,
         events: data,
       });
+      this.requestEvent(data[0].uuid);
     } catch (error) {
       console.error(error);
     }
