@@ -30,7 +30,8 @@ export default (() => {
   }
 
   // Grabs event object from the eventMap by searching with the id.
-  getEvent(id: any): (object | Function | undefined) {
+  getEvent(id: any): (any) {
+    console.log('id: ', id);
     return this.eventMap.get(id);
   }
 
@@ -115,7 +116,8 @@ export default (() => {
   }
 
   // Places the event in the eventMap for reference and patches and methods that are missing from the event with patchToJSON().
-  registerEvent(event: Scene): void {
+  registerEvent(event: Scene | Mesh): void {
+    console.log('In registerEvent')
     // Grab the uuid from the event with object destructering.
     const { uuid } = event;
     // If the uuid exists and the event is not yet in the eventMap(Meaning it was most likely a scene event).
@@ -142,10 +144,47 @@ export default (() => {
     }
   }
 
+  requestSceneObjects(uuid: string) {
+    const objCache: any = {}
+    const scene = this.getEvent(uuid);
+    console.log('scene: ', scene);
+    console.log('SCENE CHILDREN: ', scene.children.length)
+    const objects: any = [scene];
+    console.log('OBJECT CHILDREN: ', objects[0].children.length)
+
+    while (objects.length) {
+      const object = objects.shift();
+      console.log('children BEFORE: ', object.children.length)
+      this.registerEvent(object);
+
+      console.log('children AFTER: ', object.children.length)
+
+      objCache[object.uuid] = {
+        uuid: object.uuid,
+        name: object.name,
+        baseType: this.utilities.getBaseType(object),
+        children: [],
+      };
+ 
+      if (object.parent) {
+        objCache[object.parent.uuid].children.push(object.uuid);
+      }
+
+      if (object.children) {
+        objects.push(...object.children);
+        console.log('objectArray: ', objects)
+      }
+    }
+    console.log('objectCache: ', objCache)
+    return objCache;
+  }
+
   // Iterates over events, serializes them, and returns them to the user.
   getSerializedEvent(id: string): any {
+    console.log('In getSerializedEvent')
     // Obtain the event that is requested from the eventMap by searching with id.
     const reqEvent: any = this.getEvent(id);
+    console.log('req Event: ', reqEvent)
     // If requested event does not exist, return undefined.
     if (!reqEvent) return;
     // If the ID passed in is a created ID instead of a uuid and the id has a match in the regex string, run this conditional.
@@ -176,14 +215,16 @@ export default (() => {
     let eventsAdded: Set<number> = new Set();
     // Invoke the serializeEvent method with the reqEvent and cache object to be serialized.
     let serialEvent: any = this.serializeEvent(reqEvent, meta);
-
+    console.log('Event serialized: ', serialEvent)
     // Create an events array that hold the serialized event.
     let events = [serialEvent];
+    console.log('Event serialized in array: ', events)
     // Add the uuid of the serialized event to the eventsAdded Set.
     eventsAdded.add(serialEvent.uuid);
-
+    console.log('Updated eventsAdded Set: ', eventsAdded)
     this.postSerializedEvent(meta);
 
+    console.log('meta after post:', meta)
     type metaIterator = {
       geometries: any[],
       materials: any[],
@@ -212,6 +253,7 @@ export default (() => {
     try {
       // Format the event to JSON with all object attributes.
       json = event.toJSON(meta);
+      console.log('JSONed event details: ', json)
     } catch (error: any) {
       throw new error(error);
     }
