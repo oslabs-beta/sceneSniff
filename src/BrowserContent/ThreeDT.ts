@@ -22,8 +22,8 @@ export default class ThreeDT<T extends EventTarget> {
     this.target.addEventListener('select', ((e: CustomEvent) => { console.log('SELECT') }) as EventListener)
 
     this.target.addEventListener('_request-overview', ((e: CustomEvent) => this.requestOverview(e.detail && e.detail.type)) as EventListener);
-    this.target.addEventListener('_request-event', ((e: CustomEvent): void => this.requestEvent(e.detail && e.detail.uuid)) as EventListener);
-    this.target.addEventListener('_request-scene-objects', ((e: CustomEvent): void => this.requestSceneObjects(e.detail && e.detail.uuid)) as EventListener);
+    this.target.addEventListener('_request-event', ((e: CustomEvent): void => this.requestEvent( e.detail.type)) as EventListener);
+    this.target.addEventListener('_request-scene-graph', ((e: CustomEvent): void => this.requestSceneObjects(e.detail && e.detail.uuid)) as EventListener);
   }
 
   // Adds observe events to the cache.
@@ -41,7 +41,7 @@ export default class ThreeDT<T extends EventTarget> {
       this.recentEvents.add(uuid);
     }
     // this.requestOverview('scenes');
-    if (uuid) this.requestSceneObjects(uuid);
+    // if (uuid) this.requestSceneObjects(uuid);
   }
 
   requestSceneObjects(uuid: string) {
@@ -58,8 +58,8 @@ export default class ThreeDT<T extends EventTarget> {
   }
 
   // When a request event is heard, requestEvent is invoked with the uuid of desired event.
-  requestEvent(uuid: string): void {
-    console.log('In requestEvent')
+  requestEvent(uuid: any): void {
+    console.log('In requestEvent, uuid:', uuid)
     // Create a variable 'data' and set it equal to the serialized version of the requested event from cache.
     let data: any = this.eventCache.getSerializedEvent(uuid);
     // If getSerializedEvent returned data without any errors.
@@ -67,6 +67,7 @@ export default class ThreeDT<T extends EventTarget> {
       // Send that data and type to the send() method. This will post the event data to the browser window.
       this.sendEvent('_request-event', data);
     }
+    // this.requestSceneObjects(uuid);
   }
 
   requestOverview(type: string): void {
@@ -77,7 +78,7 @@ export default class ThreeDT<T extends EventTarget> {
         type,
         events: data,
       });
-      this.requestEvent(data[0].uuid);
+      // this.requestEvent(data[0].uuid);
     } catch (error) {
       console.error(error);
     }

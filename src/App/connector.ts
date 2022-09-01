@@ -32,7 +32,7 @@ export default class ContentConnector extends EventTarget {
       console.error( 'disconnected from background.js', request );
     })
 
-    //receiving message
+    //receiving message from the inspected window via Browser => CanvasSpy => Background.js => Connector.ts
     this.port.onMessage.addListener( (request) => {
 
       //Notify the browser __THREE_DEVTOOLS__ that devtools has been loaded and is waiting for a reload
@@ -50,7 +50,18 @@ export default class ContentConnector extends EventTarget {
             window.__THREE_DEVTOOLS__.dispatchEvent(new CustomEvent(\'devtools-ready\'));`
         )
       } else if ( request.type === '_request-overview' ) {
-        console.log('Request: ', request );
+        console.log('Request OVERVIEW: ', request );
+        console.log('DETAIL: ', request.data.events[0]);
+        //request map of the scene
+        this.dispatchEvent( new CustomEvent( 'request-scene-graph', {
+          detail: request.data.events[0] //uuid of the scene
+        }))
+      } else if ( request.type === '_request-scene-objects' ) {
+        console.log('REQUEST SCENE GRAPH TO THE DEV TOOL: ', request)
+        //map of the scene has been received. When uuid is clicked on, request entity data on that uuid
+        this.dispatchEvent( new CustomEvent('request-event', {
+          detail: request.data.events[0] //uuid of the mesh
+        }))
       }
     })
   }
@@ -59,6 +70,18 @@ export default class ContentConnector extends EventTarget {
   getOverview( type: string ) {
     this.postMessage( '_request-overview', { type } )
   }
+
+  //Grabbing Scene's Children
+  requestSceneGraph( type: any ) {
+    console.log( 'REQUEST SCENE GRAPH TO THE BROWSER: ,', type);
+    this.postMessage( '_request-scene-graph', { uuid: type.detail.uuid });
+  }
+
+  //Grabbing the Mesh Entity Event
+  requestEvent( type: any ) {
+    console.log('TYPE IN REQUEST EVENT METHOD: ', type.detail.uuid);
+    this.postMessage( '_request-event', { uuid: type.detail.uuid }  );
+  } 
 
   
   /*helper function for posting message to the window
