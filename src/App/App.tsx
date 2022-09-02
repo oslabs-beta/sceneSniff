@@ -25,7 +25,7 @@ export default function App(): JSX.Element {
 
   return (
     <>
-    <ReloadButton />
+    {/* <ReloadButton /> */}
     <MainContainer />
     </>
   );
