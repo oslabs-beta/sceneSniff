@@ -22,7 +22,7 @@
 			const cube = new THREE.Mesh( geometry, material );
 			const cube2 = new THREE.Mesh( geometry, new THREE.MeshBasicMaterial( { color: 0xffffff } ) );
 			const cube3 = new THREE.Mesh( geometry, new THREE.MeshBasicMaterial( { color: 'yellow' } ) );
-			scene.add( cube );
+			scene.add( cube, cube3 );
 
 			camera.position.x = 2;
 			camera.position.z = 5;

@@ -77,6 +77,8 @@ export default class ContentConnector extends EventTarget {
         // this.dispatchEvent( new CustomEvent('request-event', {
         //   detail: meshObj //uuid of the mesh
         // }))
+      } else if ( request.type === '_request-event' ) {
+        console.log(request.data[0]);
       }
     })
   }
@@ -94,8 +96,8 @@ export default class ContentConnector extends EventTarget {
 
   //Grabbing the Mesh Entity Event
   requestEvent(type: any) {
-    console.log('TYPE IN REQUEST EVENT METHOD: ', type.detail.uuid);
-    this.postMessage('_request-event', { uuid: type.detail.uuid });
+    console.log('TYPE IN REQUEST EVENT METHOD: ', type);
+    this.postMessage('_request-event', { uuid: type });
   }
 
 
