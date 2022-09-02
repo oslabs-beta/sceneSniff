@@ -31,6 +31,7 @@ export default (() => {
 
   // Grabs event object from the eventMap by searching with the id.
   getEvent(id: any): (any) {
+    console.log('Eventmap when grabbing: ', this.eventMap)
     console.log('id: ', id);
     return this.eventMap.get(id);
   }
@@ -146,11 +147,11 @@ export default (() => {
 
   requestSceneObjects(uuid: string) {
     const objCache: any = {}
-    const scene = this.getEvent(uuid);
-    console.log('scene: ', scene);
-    console.log('SCENE CHILDREN: ', scene.children.length)
-    const objects: any = [scene];
-    console.log('OBJECT CHILDREN: ', objects[0].children.length)
+    // console.log('scene: ', scene);
+    // console.log('SCENE CHILDREN: ', scene.children.length)
+    const objects: any = [this.getEvent(uuid)];
+    console.log('objects arr before while loop: ', objects);
+    console.log('OBJECT[0] CHILDREN before while loop: ', objects[0].children.length)
 
     while (objects.length) {
       const object = objects.shift();
@@ -170,7 +171,7 @@ export default (() => {
         objCache[object.parent.uuid].children.push(object.uuid);
       }
 
-      if (object.children) {
+      if (object.children.length > 0) {
         objects.push(...object.children);
         console.log('objectArray: ', objects)
       }

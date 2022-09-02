@@ -6,25 +6,51 @@ import ListItemText from '@mui/material/ListItemText';
 import Collapse from '@mui/material/Collapse';
 import ExpandLess from '@mui/icons-material/ExpandLess';
 import ExpandMore from '@mui/icons-material/ExpandMore';
+import ContentConnector from '../connector';
+
+type PanelType = 'scenes' | 'geometries' | 'materials' | 'textures' | 'rendering'
 
 export function Window() {
   const [open, setOpen] = useState(true);
 
+  const [ panel ] = useState<PanelType>( "scenes" ); 
+  const [ activeUuid, changeUuid ] = useState<any>( null )
+
+  const content = new ContentConnector();
+  
+  //content event listeners
+  //Request event for specific mesh uuid
+  content.addEventListener('request-event', ( e: any ) => {
+    console.log('E AT EVENT LISTENER REQUESTEVENT: ', e);
+    changeUuid( e ) //mesh uuid
+  })
+
+  //Request overall map for specific scene uuid
+  content.addEventListener( 'request-scene-graph', ( e: any ) => {
+    console.log('REQUESTING SCENE AND ITS CHILDREN: ', e)
+    content.requestSceneGraph( e );
+  })
+
+
+
   const handleClick = () => {
-    setOpen(!open);
+    content.getOverview(panel);
+    // setOpen(!open);
   };
 
   const handleModelClick = () => {
     // on click 
       // change our modelTitle state
       // fetch/grab all the attributes of the 3D model scene
+      console.log('REQUESTING EVENT FOR: ', activeUuid);
+      content.requestEvent( activeUuid );
   }
 
   const backlogChildren = ['cube', 'sphere', 'pyramid'];
 
   const renderChildren:JSX.Element[] = [];
   backlogChildren.forEach((child) => {
-    renderChildren.push(<ListItemButton sx={{
+    renderChildren.push(<ListItemButton onClick={handleModelClick} sx={{
       bgcolor: 'primary.dark',
       border: 1,
       borderColor: 'primary.main',

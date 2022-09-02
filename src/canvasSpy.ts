@@ -22,10 +22,6 @@ const target = new class ThreeTarget extends EventTarget {
         console.log('DISPATCHING: ', event)
         this.dispatchEvent(event);
       }
-
-      this.dispatchEvent( new CustomEvent('_request-overview', {
-        detail: ${ JSON.stringify( { 'type': 'scene' } ) },
-      }));
     }, { once: true });
   }
   
