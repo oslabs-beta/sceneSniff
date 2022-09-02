@@ -8,6 +8,7 @@ import Slider from '@mui/material/Slider';
 import Divider from '@mui/material/Divider';
 import MuiInput from '@mui/material/Input';
 import Grid from '@mui/material/Grid';
+import ContentConnector from '../connector';
 
 
 export function Model() {
