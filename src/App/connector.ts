@@ -57,11 +57,22 @@ export default class ContentConnector extends EventTarget {
           detail: request.data.events[0] //uuid of the scene
         }))
       } else if ( request.type === '_request-scene-objects' ) {
+        //setting activeUuid state to be the uuid of the mesh
+        //request from request-scene-objects has 2 objects, one is scene and one is mesh.
+        //identify which uuid is mesh, and dispatchEvent with detail assigned to the uuid of the mesh
         console.log('REQUEST SCENE GRAPH TO THE DEV TOOL: ', request)
+
+        for (const key of Object.keys(request.data.events)) {
+          if (request.data.events[key].baseType === 'Mesh') {
+            this.dispatchEvent( new CustomEvent('request-event', {
+              detail: request.data.events[key] //uuid of the mesh
+            }))
+          }
+        }
         //map of the scene has been received. When uuid is clicked on, request entity data on that uuid
-        this.dispatchEvent( new CustomEvent('request-event', {
-          detail: request.data.events[0] //uuid of the mesh
-        }))
+        // this.dispatchEvent( new CustomEvent('request-event', {
+        //   detail: meshObj //uuid of the mesh
+        // }))
       }
     })
   }

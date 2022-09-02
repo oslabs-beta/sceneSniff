@@ -22,7 +22,7 @@ export default class ThreeDT<T extends EventTarget> {
     this.target.addEventListener('select', ((e: CustomEvent) => { console.log('SELECT') }) as EventListener)
 
     this.target.addEventListener('_request-overview', ((e: CustomEvent) => this.requestOverview(e.detail && e.detail.type)) as EventListener);
-    this.target.addEventListener('_request-event', ((e: CustomEvent): void => this.requestEvent( e.detail.type)) as EventListener);
+    this.target.addEventListener('_request-event', ((e: CustomEvent): void => this.requestEvent( e.detail.uuid)) as EventListener);
     this.target.addEventListener('_request-scene-graph', ((e: CustomEvent): void => this.requestSceneObjects(e.detail && e.detail.uuid)) as EventListener);
   }
 
