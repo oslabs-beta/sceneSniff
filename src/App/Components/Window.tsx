@@ -6,43 +6,43 @@ import ListItemText from '@mui/material/ListItemText';
 import Collapse from '@mui/material/Collapse';
 import ExpandLess from '@mui/icons-material/ExpandLess';
 import ExpandMore from '@mui/icons-material/ExpandMore';
-import ContentConnector from '../connector';
+// import ContentConnector from '../connector';
 
 type PanelType = 'scenes' | 'geometries' | 'materials' | 'textures' | 'rendering'
 
-export function Window() {
+export function Window(props: any) {
   const [open, setOpen] = useState(true);
   const [components, changeComponents] = useState<any>([])
   const [panel] = useState<PanelType>("scenes");
-  const [uuids, changeUuids] = useState<any>(null)
+  // const [uuids, changeUuids] = useState<any>(null)
 
-  const content = new ContentConnector();
+  // const content = new ContentConnector();
+  const content = props.content;
+  // //content event listeners
+  // //Request event for specific mesh uuid
+  // content.addEventListener('request-event', (e: any) => {
+  //   console.log('E AT EVENT LISTENER REQUESTEVENT: ', e);
+  //   changeUuids(e.detail) // Events object with Scene and x amount of mesh objects
+  // })
 
-  //content event listeners
-  //Request event for specific mesh uuid
-  content.addEventListener('request-event', (e: any) => {
-    console.log('E AT EVENT LISTENER REQUESTEVENT: ', e);
-    changeUuids(e.detail) // Events object with Scene and x amount of mesh objects
-  })
-
-  //Request overall map for specific scene uuid
-  content.addEventListener('request-scene-graph', (e: any) => {
-    console.log('in sceneGraph listener');
-    console.log('REQUESTING SCENE AND ITS CHILDREN: ', e);
-    content.requestSceneGraph(e);
-  })
+  // //Request overall map for specific scene uuid
+  // content.addEventListener('request-scene-graph', (e: any) => {
+  //   console.log('in sceneGraph listener');
+  //   console.log('REQUESTING SCENE AND ITS CHILDREN: ', e);
+  //   content.requestSceneGraph(e);
+  // })
 
   useEffect(() => {
-    if (!uuids || !Object.keys(uuids).length) return;
+    if (!props.uuids || !Object.keys(props.uuids).length) return;
 
     const scenes = [];
 
-    for (const uuid in uuids) {
-      if (uuids[uuid].baseType === "Scene") {
+    for (const uuid in props.uuids) {
+      if (props.uuids[uuid].baseType === "Scene") {
         console.log("ITERATING UUID: ", uuid)
         const meshes: any[] = []
-        uuids[uuid].children.forEach((id: any) => {
-          meshes.push(<ListItemButton onClick={() => handleModelClick(id)} sx={{
+        props.uuids[uuid].children.forEach((id: any, index: number) => {
+          meshes.push(<ListItemButton key={`mesh-${index}`}onClick={() => handleModelClick(id)} sx={{
             bgcolor: 'primary.dark',
             border: 1,
             borderColor: 'primary.main',
@@ -81,7 +81,7 @@ export function Window() {
       }
     }
     changeComponents(scenes);
-  }, [uuids, open])
+  }, [props.uuids, open])
 
   const handleClick = () => {
     content.getOverview(panel);

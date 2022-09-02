@@ -78,7 +78,10 @@ export default class ContentConnector extends EventTarget {
         //   detail: meshObj //uuid of the mesh
         // }))
       } else if ( request.type === '_request-event' ) {
-        console.log(request.data[0]);
+        console.log('Event about to dispatch to mesh-data:', request.data[0]);
+        this.dispatchEvent(new CustomEvent('mesh-data', {
+          detail: request // Mesh object selected in drop down scene menu
+        }))
       }
     })
   }

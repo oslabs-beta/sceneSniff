@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { RgbaColorPicker } from "react-colorful"
 import ToggleButton from '@mui/material/ToggleButton';
 import Collapse from '@mui/material/Collapse';
@@ -8,14 +8,25 @@ import Slider from '@mui/material/Slider';
 import Divider from '@mui/material/Divider';
 import MuiInput from '@mui/material/Input';
 import Grid from '@mui/material/Grid';
-import ContentConnector from '../connector';
 
 
-export function Model() {
+export function Model(props: any) {
   const [colorMaterial, setColorMaterial] = useState({ r: 200, g: 150, b: 35, a: 1 });
   const [colorLights, setColorLights] = useState({ r: 255, g: 255, b: 255, a: 1 });
   const [selected, setSelected] = useState(false);
   const [selected2, setSelected2] = useState(false);
+  // const [meshData, changeMesh] = useState(null);
+
+  // const content = props.content;
+  useEffect(() => {
+    if (props.meshData) {
+      console.log('meshData passed in to model:', props.meshData)
+}}, [props.meshData])
+
+  // content.addEventListener('mesh-data', (e: any) => {
+  //   console.log('E AT mesh-data: ', e)
+  //   changeMesh(e.detail.data[0]) // Mesh Object selected in drop down menu
+  // })
   
   return (
     <>
