@@ -40,7 +40,7 @@ export function Window() {
     for ( const uuid in uuids ) {
       if ( uuids[uuid].baseType === "Scene" ) {
         console.log("ITERATING UUID: ",uuid)
-        scenes.push(<div>{uuid}</div>)
+        scenes.push(<div>{uuid}</div>) //push <ListItemButton> component and populate it with scene's children uuid onClick={() => this.content.requestEvent( uuid )}
       }
     }
     changeComponents(scenes);
