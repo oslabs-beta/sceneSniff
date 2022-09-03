@@ -1,1 +1,1 @@
-chrome.devtools.panels.create("sceneSniff", "", "./panel.html");
+chrome.devtools.panels.create('sceneSniff', '', './panel.html');
