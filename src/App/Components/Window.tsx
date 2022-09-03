@@ -6,6 +6,7 @@ import ListItemText from '@mui/material/ListItemText';
 import Collapse from '@mui/material/Collapse';
 import ExpandLess from '@mui/icons-material/ExpandLess';
 import ExpandMore from '@mui/icons-material/ExpandMore';
+import { IndeterminateCheckBox } from '@mui/icons-material';
 // import ContentConnector from '../connector';
 
 type PanelType = 'scenes' | 'geometries' | 'materials' | 'textures' | 'rendering'
@@ -51,7 +52,7 @@ export function Window(props: any) {
           >
             <ListItemText sx={{
               color: 'primary.main'
-            }} primary={`Mesh`}></ListItemText>
+            }} primary={`Mesh-${index}`}></ListItemText>
           </ListItemButton>
           )
         })
