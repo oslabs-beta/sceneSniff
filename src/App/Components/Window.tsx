@@ -52,7 +52,7 @@ export function Window(props: any) {
           >
             <ListItemText sx={{
               color: 'primary.main'
-            }} primary={`Mesh-${index}`}></ListItemText>
+            }} primary={`Mesh ${index + 1}`}></ListItemText>
           </ListItemButton>
           )
         })
