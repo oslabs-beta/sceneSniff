@@ -5,138 +5,318 @@ import ToggleButton from '@mui/material/ToggleButton';
 import Collapse from '@mui/material/Collapse';
 import { Typography } from '@mui/material';
 import Slider from '@mui/material/Slider';
-import Divider from '@mui/material/Divider';
+import Box from '@mui/material/Box';
 import MuiInput from '@mui/material/Input';
-import Grid from '@mui/material/Grid';
-
+import { MeshDepthMaterial } from 'three';
 
 export function Model(props: any) {
-  const [colorMaterial, setColorMaterial] = useState({ r: 200, g: 150, b: 35, a: 1 });
-  const [colorLights, setColorLights] = useState({ r: 255, g: 255, b: 255, a: 1 });
-  const [selected, setSelected] = useState(false);
-  const [selected2, setSelected2] = useState(false);
-  // const [meshData, changeMesh] = useState(null);
 
-  // const content = props.content;
+  const[widthValue, setWidthValue] = useState(0);
+  const[heightValue, setHeightValue] = useState(0);
+  const[depthValue, setDepthValue] = useState(0);
+
+  const[xPosValue, setXPosValue] = useState(0);
+  const[yPosValue, setYPosValue] = useState(0);
+  const[zPosValue, setZPosValue] = useState(0);
+
+  const[xRotValue, setXRotValue] = useState(0);
+  const[yRotValue, setYRotValue] = useState(0);
+  const[zRotValue, setZRotValue] = useState(0);
+
+  const changeWidthSlider = (event:any, value:any) => {
+    setWidthValue(value);
+  };
+  const changeHeightSlider = (event:any, value:any) => {
+    setHeightValue(value);
+  };
+  const changeDepthSlider = (event:any, value:any) => {
+    setDepthValue(value);
+  };
+  const changeXPosSlider = (event:any, value:any) => {
+    setXPosValue(value);
+  };
+  const changeYPosSlider = (event:any, value:any) => {
+    setYPosValue(value);
+  };
+  const changeZPosSlider = (event:any, value:any) => {
+    setZPosValue(value);
+  };
+  const changeXRotSlider = (event:any, value:any) => {
+    setXRotValue(value);
+  };
+  const changeYRotSlider = (event:any, value:any) => {
+    setYRotValue(value);
+  };
+  const changeZRotSlider = (event:any, value:any) => {
+    setZRotValue(value);
+  };
+
+  const changeWidthInput = (event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>, value: any) => {
+    const inputWidth:any = event.target.value
+    setWidthValue(inputWidth)
+    console.log(event);
+  }
+
   useEffect(() => {
     if (props.meshData) {
       console.log('meshData passed in to model:', props.meshData)
+      setWidthValue(props.meshData.scale[0]);
+      setHeightValue(props.meshData.scale[1]);
+      setDepthValue(props.meshData.scale[2]);
+      setXPosValue(props.meshData.position[0])
+      setYPosValue(props.meshData.position[1])
+      setZPosValue(props.meshData.position[2])
+      setXRotValue(props.meshData.rotation[0])
+      setYRotValue(props.meshData.rotation[1])
+      setZRotValue(props.meshData.rotation[2])
 }}, [props.meshData])
-
-  // content.addEventListener('mesh-data', (e: any) => {
-  //   console.log('E AT mesh-data: ', e)
-  //   changeMesh(e.detail.data[0]) // Mesh Object selected in drop down menu
-  // })
   
   return (
     <>
-<Grid container spacing = {2}
+<Box
     sx={{
+      align: 'center',
       backgroundColor: 'primary.dark',
-      gridAutoFlow: 'row',
-      borderRadius: 1
+      borderRadius: 1,
+      mx: 'auto',
+      p: 2,
+      textAlign: 'center',
     }}
       >
-  <Grid item xs={12} sm={6}>
-    <Typography variant='h6' fontWeight='bold' color='primary.main'>Geometry</Typography>
-    <Typography color='primary.light'>Type: </Typography>
-    <Typography color='primary.light'>Size: </Typography>
-    <Typography color='primary.light'>Width: </Typography>
-    <Slider
-        sx = {{
-          width: 1/2
-        }}
-        size="small"
-        defaultValue={50}
-        aria-label="Small"
-        valueLabelDisplay="auto"
-      />
-    <Typography color='primary.light'>Height</Typography>
-    <Slider
-    sx = {{
-      width: 1/2
-    }}
-        size="small"
-        defaultValue={50}
-        aria-label="Small"
-        valueLabelDisplay="auto"
-      />
-    <Typography color='primary.light'>Depth</Typography>
-    <Slider
-     sx = {{
-      width: 1/2
-    }}
-        size="small"
-        defaultValue={50}
-        aria-label="Small"
-        valueLabelDisplay="auto"
-      />
-  </Grid>
-
-  <Grid item xs={12} sm={6}>
-    <Typography variant="h6" fontWeight="fontWeightBold" color='primary.main'>Material</Typography>
-    <Typography color='primary.light'>Type: </Typography>
-    <Typography color='primary.light'>Color: </Typography>
-    <ToggleButton
-      sx={{
-        backgroundColor: `rgb(${colorMaterial.r}, ${colorMaterial.g}, ${colorMaterial.b})`,
-        opacity: colorMaterial.a
-      }}
-      value="check"
-      selected={selected}
-      onChange={() => {
-        setSelected(!selected);
-      }}
-    >
-    </ToggleButton>
-    <Collapse in={selected} timeout="auto" unmountOnExit> 
-      <RgbaColorPicker color={colorMaterial} onChange={setColorMaterial} />
-      <div className="value">{JSON.stringify(colorMaterial)}</div>
-    </Collapse>
-  </Grid>
-
-    
-  <Grid item xs={12} sm={6}>
-    <Typography variant="h6" fontWeight='fontWeightBold' color='primary.main'>Lights</Typography>
-    <Typography color='primary.light'>Color</Typography>
-    <ToggleButton
-      sx={{
-        backgroundColor: `rgb(${colorLights.r}, ${colorLights.g}, ${colorLights.b})`,
-        opacity: colorLights.a
-      }}
-      value="check"
-      selected={selected2}
-      onChange={() => {
-        setSelected2(!selected2);
-      }}
-    >
-       </ToggleButton>
-    <Collapse in={selected2} timeout="auto" unmountOnExit> 
-    <RgbaColorPicker color={colorLights} onChange={setColorLights} />
-    <div className="value">{JSON.stringify(colorLights)}</div>
-    </Collapse>
-    {/* <Typography color='primary.light'>Intensity: <MuiInput
+    <Typography variant='h6' fontWeight='bold' color='primary.main'>Scale</Typography>
+    <Typography color='primary.light'>Width: <MuiInput
+            onChange={() => changeWidthInput}
+            sx={{
+              color: 'primary.light'
+            }}
             size="small"
             inputProps={{
               step: 1,
               min: 0,
               max: 100,
               type: 'number',
+              value: widthValue,
               'aria-labelledby': 'input-slider',
             }}
-          /></Typography> */}
-  </Grid>
+          /> 
+    <Slider onChange={changeWidthSlider}
+        sx = {{
+          width: 1/2
+        }}
+        value={widthValue}
+        size="small"
+        aria-label="Small"
+        valueLabelDisplay="auto"
+      />
+    </Typography>
+    <Typography color='primary.light'>Height: <MuiInput
+            size="small"
+            inputProps={{
+              step: 1,
+              min: 0,
+              max: 100,
+              type: 'number',
+              value: heightValue,
+              'aria-labelledby': 'input-slider',
+            }}
+          />
+    <Slider onChange={changeHeightSlider}
+    sx = {{
+      width: 1/2
+    }}
+        value={heightValue}
+        size="small"
+        aria-label="Small"
+        valueLabelDisplay="auto"
+      />
+    </Typography>
+    <Typography color='primary.light'>Depth: <MuiInput
+            size="small"
+            inputProps={{
+              step: 1,
+              min: 0,
+              max: 100,
+              type: 'number',
+              value: depthValue,
+              'aria-labelledby': 'input-slider',
+            }}
+          />
+    <Slider onChange={changeDepthSlider}
+     sx = {{
+      width: 1/2
+    }}
+        value={depthValue}
+        size="small"
+        aria-label="Small"
+        valueLabelDisplay="auto"
+      />
+    </Typography>
 
-  <Grid item xs={12} sm={6}>
-    <Typography variant="h6" fontWeight='fontWeightBold' color='primary.main'>Perspective Camera</Typography>
-    <Typography color='primary.light'>FOV: </Typography>
-    <Typography color='primary.light'>Zoom: </Typography>
-    <Typography color='primary.light'>Aspect Ratio: </Typography>
-    <Typography color='primary.light'>Near plane: </Typography>
-    <Typography color='primary.light'>Far plane: </Typography>           
-  </Grid>
+  </Box>
 
-</Grid>
-    </>
+
+  <Box
+    sx={{
+      align: 'center',
+      backgroundColor: 'primary.dark',
+      borderRadius: 1,
+      mx: 'auto',
+      p: 2,
+      textAlign: 'center',
+    }}
+      >
+    <Typography variant='h6' fontWeight='bold' color='primary.main'>Position</Typography>
+    <Typography color='primary.light'>X: <MuiInput
+            onChange={() => changeWidthInput}
+            sx={{
+              color: 'primary.light'
+            }}
+            size="small"
+            inputProps={{
+              step: 1,
+              min: 0,
+              max: 100,
+              type: 'number',
+              value: xPosValue,
+              'aria-labelledby': 'input-slider',
+            }}
+          /> 
+    <Slider onChange={changeXPosSlider}
+        sx = {{
+          width: 1/2
+        }}
+        value={xPosValue}
+        size="small"
+        aria-label="Small"
+        valueLabelDisplay="auto"
+      />
+    </Typography>
+    <Typography color='primary.light'>Y: <MuiInput
+            size="small"
+            inputProps={{
+              step: 1,
+              min: 0,
+              max: 100,
+              type: 'number',
+              value: yPosValue,
+              'aria-labelledby': 'input-slider',
+            }}
+          />
+    <Slider onChange={changeYPosSlider}
+    sx = {{
+      width: 1/2
+    }}
+        value={yPosValue}
+        size="small"
+        aria-label="Small"
+        valueLabelDisplay="auto"
+      />
+    </Typography>
+    <Typography color='primary.light'>Z: <MuiInput
+            size="small"
+            inputProps={{
+              step: 1,
+              min: 0,
+              max: 100,
+              type: 'number',
+              value: zPosValue,
+              'aria-labelledby': 'input-slider',
+            }}
+          />
+    <Slider onChange={changeZPosSlider}
+     sx = {{
+      width: 1/2
+    }}
+        value={zPosValue}
+        size="small"
+        aria-label="Small"
+        valueLabelDisplay="auto"
+      />
+    </Typography>
+
+  </Box>
+
+
+  <Box
+    sx={{
+      align: 'center',
+      backgroundColor: 'primary.dark',
+      borderRadius: 1,
+      mx: 'auto',
+      p: 2,
+      textAlign: 'center',
+    }}
+      >
+    <Typography variant='h6' fontWeight='bold' color='primary.main'>Rotation</Typography>
+    <Typography color='primary.light'>X: <MuiInput
+            onChange={() => changeWidthInput}
+            sx={{
+              color: 'primary.light'
+            }}
+            size="small"
+            inputProps={{
+              step: 1,
+              min: 0,
+              max: 100,
+              type: 'number',
+              value: xRotValue,
+              'aria-labelledby': 'input-slider',
+            }}
+          /> 
+    <Slider onChange={changeXRotSlider}
+        sx = {{
+          width: 1/2
+        }}
+        value={xRotValue}
+        size="small"
+        aria-label="Small"
+        valueLabelDisplay="auto"
+      />
+    </Typography>
+    <Typography color='primary.light'>Y: <MuiInput
+            size="small"
+            inputProps={{
+              step: 1,
+              min: 0,
+              max: 100,
+              type: 'number',
+              value: yRotValue,
+              'aria-labelledby': 'input-slider',
+            }}
+          />
+    <Slider onChange={changeYRotSlider}
+    sx = {{
+      width: 1/2
+    }}
+        value={yRotValue}
+        size="small"
+        aria-label="Small"
+        valueLabelDisplay="auto"
+      />
+    </Typography>
+    <Typography color='primary.light'>Z: <MuiInput
+            size="small"
+            inputProps={{
+              step: 1,
+              min: 0,
+              max: 100,
+              type: 'number',
+              value: zRotValue,
+              'aria-labelledby': 'input-slider',
+            }}
+          />
+    <Slider onChange={changeZRotSlider}
+     sx = {{
+      width: 1/2
+    }}
+        value={zRotValue}
+        size="small"
+        aria-label="Small"
+        valueLabelDisplay="auto"
+      />
+    </Typography>
+
+  </Box>
+  </>
   );
 }
