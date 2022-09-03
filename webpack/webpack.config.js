@@ -39,12 +39,12 @@ module.exports = {
   },
   plugins: [
     new HtmlWebpackPlugin({
-      template: './devtools.html',
+      template: './src/devtools.html',
       filename: 'devtools.html',
       inject: false,
     }),
     new HtmlWebpackPlugin({
-      template: './panel.html',
+      template: './src/panel.html',
       filename: 'panel.html',
       inject: false,
     }),
