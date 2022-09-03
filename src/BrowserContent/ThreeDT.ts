@@ -15,12 +15,15 @@ export default class ThreeDT<T extends EventTarget> {
     this.eventCache = new EventCache();
     this.recentEvents = new Set();
 
+    // Event listeners that are coming from either Three.js itself, or sceneSniffer dev tools
+    // Flow of the data is events are dispatched from Three.js or sceneSniffer
+    // Respective methods are invoked, and conducts relative business logic
+    // Once finished, send data back to canvasSpy (Content Script)
     this.target.addEventListener('observe', ((e: CustomEvent) => {
       this.observe(e.detail);
     }) as EventListener);
     this.target.addEventListener('register', (() => { /* TODO */ }) as EventListener);
     this.target.addEventListener('select', (() => { /* TODO */ }) as EventListener);
-
     this.target.addEventListener('_request-overview', ((e: CustomEvent) => this.requestOverview(e.detail && e.detail.type)) as EventListener);
     this.target.addEventListener('_request-event', ((e: CustomEvent): void => this.requestEvent(e.detail.uuid)) as EventListener);
     this.target.addEventListener('_request-scene-graph', ((e: CustomEvent): void => this.requestSceneObjects(e.detail && e.detail.uuid)) as EventListener);
@@ -35,15 +38,12 @@ export default class ThreeDT<T extends EventTarget> {
     if (!uuid) {
       console.log('No uuid on event');
     } else {
-      // Add stuff here for changing objects
-
       // Add the new event uuid to the recentEvents Set.
       this.recentEvents.add(uuid);
     }
-    // this.requestOverview('scenes');
-    // if (uuid) this.requestSceneObjects(uuid);
   }
 
+  // Look for the event and all children related to our scene then returns data to canvasSpy
   requestSceneObjects(uuid: string) {
     try {
       const data: any[] = this.eventCache.requestSceneObjects(uuid);
@@ -70,7 +70,7 @@ export default class ThreeDT<T extends EventTarget> {
     // this.requestSceneObjects(uuid);
   }
 
-  // When change is made on devtool side, updateEvent in Canvas
+  // Update event in the inspected browser with value received from sceneSniffer
   updateEvent(detail: any) {
     const {
       uuid, property, value, type,
@@ -95,6 +95,7 @@ export default class ThreeDT<T extends EventTarget> {
     }
   }
 
+  // Request uuids of scenes and returns data to canvasSpy
   requestOverview(type: string): void {
     try {
       const data: any[] = this.eventCache.getOverview(type);
@@ -108,7 +109,7 @@ export default class ThreeDT<T extends EventTarget> {
     }
   }
 
-  // Sends the serialized event to the window
+  // Sends the serialized event to the window (canvasSpy)
   // so that the user can see the data of the requested event.
   sendEvent(type: string, data: { type: string, events: any[] }): void {
     try {

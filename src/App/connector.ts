@@ -10,12 +10,12 @@ export default class ContentConnector extends EventTarget {
 
   constructor() {
     super();
-    // connect this to background.js
+    // connect the sceneSniffer to the background
     this.port = chrome.runtime.connect({
       name: 'Three-Dev-Tools',
     });
 
-    // notify background.js that devtool has been opened
+    // When connector is called, immediately let background know that the devtool has been connected
     this.port.postMessage({
       name: 'connect',
       tabId: chrome.devtools.inspectedWindow.tabId,
@@ -27,12 +27,18 @@ export default class ContentConnector extends EventTarget {
     });
 
     // receiving message from the inspected window
-    // via Browser => CanvasSpy => Background.js => Connector.ts
+    // via Inspected Window => CanvasSpy => Background.js => Connector.ts
+    // If request type is not devtoolsLoaded, dispatch event that gets caught in MainContainer
+    // MainContainer will execute business logic after event is dispatched
     this.port.onMessage.addListener((request) => {
       // Notify the browser __THREE_DEVTOOLS__ that
       // devtools has been loaded and is waiting for a reload
       if (request.type === 'devtoolLoaded') {
-        // inject ThreeDT script to the inspected document
+        // Inject our ./BrowserContent script directly to inspected window.
+        // THREE here is the three in the ./BrowserContent folder, not our node package Three.
+        // This THREE is used specifically by devtools and only devtols, not the inspected window
+        // Not entirely too sure why, but importing Three.js directly from node does not properly
+        // import. Look into maybe?
         chrome.devtools.inspectedWindow.eval(
           `
             const utilities = (${utilities})();
@@ -76,6 +82,8 @@ export default class ContentConnector extends EventTarget {
     this.postMessage('_request-event', { uuid: type });
   }
 
+  // When values in sceneSniffer devtools is changed, post to inspectedWindow
+  // to create direct change
   updateEvent(uuid: any, property: any, value: any, type: any) {
     this.postMessage('_update-event', {
       uuid, property, value, type,

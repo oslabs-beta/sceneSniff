@@ -26,6 +26,7 @@ const MainContainer = (): JSX.Element => {
     content.requestSceneGraph(e);
   });
 
+  // Update Model component when mesh data is received
   content.addEventListener('mesh-data', (e: any) => {
     changeMesh(e.detail.data[0]); // Mesh Object selected in drop down menu
   });

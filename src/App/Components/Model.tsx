@@ -21,6 +21,8 @@ function Model(props: any) {
 
   const { content } = props;
 
+  // Any time there is a change made, content.updateEvent will evaluate
+  // changes made on inspected window
   const changeWidthSlider = (event:any, value:any) => {
     setWidthValue(value);
     content.updateEvent(props.meshData.uuid, 'x-scale', value, 'basicAttribute');
