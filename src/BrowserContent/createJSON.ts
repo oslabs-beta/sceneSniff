@@ -1,5 +1,9 @@
 // @ts-nocheck
 // Derived from Three-Devtools github
+// https://github.com/threejs/three-devtools/blob/master/src/content/toJSON.js
+
+// TODO: Rework this whole file to fit our devtool.
+
 export default (() => {
   const isDevtoolsSerialization: any = (meta) => !!(meta && meta.devtoolsConfig);
   const isObject: any = (o) => Object.prototype.toString.call(o) === '[object Object]';

@@ -1,8 +1,9 @@
 const script = document.createElement('script');
 
-// inject this text to the inspected window at the very beginning of page load.
-// ThreeTarget is a new EventTarget at __THREE_DEVTOOLS__ that logs all events dispatched
-// via Three.js or This devtool until the devtools is ready into an array
+/**  inject this text to the inspected window at the very beginning of page load.
+ ThreeTarget is a new EventTarget at __THREE_DEVTOOLS__ that logs all events dispatched
+ via Three.js or This devtool until the devtools is ready into an array
+*/
 script.text = `
 (() => {
 
@@ -45,7 +46,8 @@ script.onload = () => {
 
 (document.head || document.documentElement).appendChild(script);
 
-// Window listener to send data from the user context to background.js
+// Data is received from our files in ./BrowserContent
+// Necessary middleman to communicate data from ./BrowserContent to the background
 window.addEventListener('message', (eventID) => {
   chrome.runtime.sendMessage(eventID.data);
 });

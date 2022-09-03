@@ -41,7 +41,7 @@ chrome.runtime.onConnect.addListener((port) => {
 });
 
 /**
- * When message from inspected window is received, communicate the data
+ * When message from canvasSpy is received, communicate the data
  * to sceneSniffer
  * @param event data from inspected window
  */

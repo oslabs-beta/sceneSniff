@@ -1,5 +1,9 @@
 /* eslint-disable no-restricted-syntax */
 
+// https://github.com/threejs/three-devtools/blob/master/src/content/utils.js
+
+// TODO: Rework this whole file to fit our devtool.
+
 export default (() => {
   const utilities = {
 

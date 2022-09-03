@@ -19,6 +19,7 @@ function Window(props: any) {
     content.getOverview(panel);
   };
 
+  // Ask for event information of the clicked event.
   const handleModelClick = (uuid: any) => {
     content.requestEvent(uuid);
   };

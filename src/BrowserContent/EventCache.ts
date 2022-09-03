@@ -36,11 +36,21 @@ export default (() => class EventCache extends EventTarget {
     };
   }
 
-  // Grabs event object from the eventMap by searching with the id.
-  getEvent(id: any): (any) {
-    return this.eventMap.get(id);
+  /**
+   * Grabs event object from the eventMap by searching with the uuid
+   * @param uuid search eventMap with uuid
+   * @returns event object with @param uuid
+   */
+  getEvent(uuid: any): (any) {
+    return this.eventMap.get(uuid);
   }
 
+  /**
+   * grabs the scene from Canvas Element called by Three.js
+   * Request is received from sceneSniffer dev tools
+   * @param type the baseType of the event
+   * @returns an object with name, uuid and baseType properties
+   */
   getOverview(type: string): { name: string, uuid: string, baseType: string }[] {
     type eventObject = { name: string, uuid: string, baseType: string };
     const events: eventObject[] = [];
@@ -64,6 +74,9 @@ export default (() => class EventCache extends EventTarget {
     return events;
   }
 
+  /**
+   * Registers the event to events array to refer back to
+   */
   addEvent(
     event: any,
     events: { name: string, uuid: string, baseType: string }[],
@@ -159,6 +172,10 @@ export default (() => class EventCache extends EventTarget {
     }
   }
 
+  /**
+   * Requests for all events related to scene. For scenes, meshes, etc.
+   * @param uuid the uuid of a string
+   */
   requestSceneObjects(uuid: string) {
     const objCache: any = {};
     const objects: any = [this.getEvent(uuid)];
@@ -203,7 +220,7 @@ export default (() => class EventCache extends EventTarget {
       return json && json.object ? json.object : json;
     }
 
-    // Geomerty attributes are robust. This method moved them all into their own category
+    // Geometry attributes are robust. This method moved them all into their own category
     // so that they don't slow everything down.
     function postSerializedEvent(data: any): void {
     // Loop through the geometry values in the meta object.
