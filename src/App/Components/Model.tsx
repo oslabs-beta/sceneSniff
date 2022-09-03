@@ -62,6 +62,11 @@ export function Model(props: any) {
     content.updateEvent( props.meshData.uuid, 'z-rotation', value, 'basicAttribute' )
   };
 
+  /*const handleWidthInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setWidthValue(event.target.value === '' ? '' : Number(event.target.value));
+  }
+  */
+
   const changeWidthInput = (event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>, value: any) => {
     const inputWidth:any = event.target.value
     setWidthValue(inputWidth)
@@ -71,15 +76,15 @@ export function Model(props: any) {
   useEffect(() => {
     if (props.meshData) {
       console.log('meshData passed in to model:', props.meshData)
-      setWidthValue(props.meshData.scale[0]);
-      setHeightValue(props.meshData.scale[1]);
-      setDepthValue(props.meshData.scale[2]);
-      setXPosValue(props.meshData.position[0])
-      setYPosValue(props.meshData.position[1])
-      setZPosValue(props.meshData.position[2])
-      setXRotValue(props.meshData.rotation[0])
-      setYRotValue(props.meshData.rotation[1])
-      setZRotValue(props.meshData.rotation[2])
+      setWidthValue(props.meshData.scale[0].toFixed(2));
+      setHeightValue(props.meshData.scale[1].toFixed(2));
+      setDepthValue(props.meshData.scale[2].toFixed(2));
+      setXPosValue(props.meshData.position[0].toFixed(2));
+      setYPosValue(props.meshData.position[1].toFixed(2));
+      setZPosValue(props.meshData.position[2].toFixed(2));
+      setXRotValue(props.meshData.rotation[0].toFixed(2));
+      setYRotValue(props.meshData.rotation[1].toFixed(2));
+      setZRotValue(props.meshData.rotation[2].toFixed(2));
 }}, [props.meshData])
   
   return (
@@ -97,9 +102,10 @@ export function Model(props: any) {
       >
     <Typography variant='h6' fontWeight='bold' color='primary.main'>Scale</Typography>
     <Typography color='primary.light'>Width: <MuiInput
-            onChange={() => changeWidthInput}
+            onChange={() => {changeWidthInput}}
             sx={{
-              color: 'primary.light'
+              color: 'primary.light',
+              width: 1/10
             }}
             size="small"
             inputProps={{
@@ -113,7 +119,8 @@ export function Model(props: any) {
           /> 
     <Slider onChange={changeWidthSlider}
         sx = {{
-          width: 1/2
+          width: 1/2,
+          ml: 2.8
         }}
         value={widthValue}
         size="small"
@@ -122,6 +129,10 @@ export function Model(props: any) {
       />
     </Typography>
     <Typography color='primary.light'>Height: <MuiInput
+            sx={{
+              color: 'primary.light',
+              width: 1/10
+            }}  
             size="small"
             inputProps={{
               step: 1,
@@ -133,9 +144,10 @@ export function Model(props: any) {
             }}
           />
     <Slider onChange={changeHeightSlider}
-    sx = {{
-      width: 1/2
-    }}
+        sx = {{
+          width: 1/2,
+          ml: 2.8
+        }}
         value={heightValue}
         size="small"
         aria-label="Small"
@@ -143,6 +155,10 @@ export function Model(props: any) {
       />
     </Typography>
     <Typography color='primary.light'>Depth: <MuiInput
+            sx={{
+              color: 'primary.light',
+              width: 1/10
+            }}
             size="small"
             inputProps={{
               step: 1,
@@ -154,9 +170,10 @@ export function Model(props: any) {
             }}
           />
     <Slider onChange={changeDepthSlider}
-     sx = {{
-      width: 1/2
-    }}
+        sx = {{
+          width: 1/2,
+          ml: 2.8
+        }}
         value={depthValue}
         size="small"
         aria-label="Small"
@@ -181,13 +198,14 @@ export function Model(props: any) {
     <Typography color='primary.light'>X: <MuiInput
             onChange={() => changeWidthInput}
             sx={{
-              color: 'primary.light'
+              color: 'primary.light',
+              width: 1/10
             }}
             size="small"
             inputProps={{
               step: 1,
-              min: 0,
-              max: 100,
+              min: -50,
+              max: 50,
               type: 'number',
               value: xPosValue,
               'aria-labelledby': 'input-slider',
@@ -195,8 +213,11 @@ export function Model(props: any) {
           /> 
     <Slider onChange={changeXPosSlider}
         sx = {{
-          width: 1/2
+          width: 1/2,
+          ml: 2.8
         }}
+        min={-50}
+        max={50}
         value={xPosValue}
         size="small"
         aria-label="Small"
@@ -204,42 +225,56 @@ export function Model(props: any) {
       />
     </Typography>
     <Typography color='primary.light'>Y: <MuiInput
+            sx={{
+              color: 'primary.light',
+              width: 1/10
+            }}
             size="small"
             inputProps={{
               step: 1,
-              min: 0,
-              max: 100,
+              min: -50,
+              max: 50,
               type: 'number',
               value: yPosValue,
               'aria-labelledby': 'input-slider',
             }}
           />
     <Slider onChange={changeYPosSlider}
-    sx = {{
-      width: 1/2
-    }}
+        sx = {{
+          width: 1/2,
+          ml: 2.8
+        }}
         value={yPosValue}
+        min={-50}
+        max={50}
         size="small"
         aria-label="Small"
         valueLabelDisplay="auto"
       />
     </Typography>
     <Typography color='primary.light'>Z: <MuiInput
+            sx={{
+              color: 'primary.light',
+              width: 1/10
+            }}
             size="small"
             inputProps={{
               step: 1,
-              min: 0,
-              max: 100,
+              min: -50,
+              max: 50,
               type: 'number',
               value: zPosValue,
               'aria-labelledby': 'input-slider',
             }}
           />
     <Slider onChange={changeZPosSlider}
-     sx = {{
-      width: 1/2
-    }}
+        sx = {{
+          width: 1/2,
+          ml: 2.8
+        }}
         value={zPosValue}
+        min={-50}
+        max={50}
         size="small"
         aria-label="Small"
         valueLabelDisplay="auto"
@@ -263,13 +298,14 @@ export function Model(props: any) {
     <Typography color='primary.light'>X: <MuiInput
             onChange={() => changeWidthInput}
             sx={{
-              color: 'primary.light'
+              color: 'primary.light',
+              width: 1/10
             }}
             size="small"
             inputProps={{
               step: 1,
-              min: 0,
-              max: 100,
+              min: -50,
+              max: 50,
               type: 'number',
               value: xRotValue,
               'aria-labelledby': 'input-slider',
@@ -277,8 +313,11 @@ export function Model(props: any) {
           /> 
     <Slider onChange={changeXRotSlider}
         sx = {{
-          width: 1/2
+          width: 1/2,
+          ml: 2.8
         }}
+        min={-50}
+        max={50}
         value={xRotValue}
         size="small"
         aria-label="Small"
@@ -286,20 +325,27 @@ export function Model(props: any) {
       />
     </Typography>
     <Typography color='primary.light'>Y: <MuiInput
+            sx={{
+              color: 'primary.light',
+              width: 1/10
+            }}
             size="small"
             inputProps={{
               step: 1,
-              min: 0,
-              max: 100,
+              min: -50,
+              max: 50,
               type: 'number',
               value: yRotValue,
               'aria-labelledby': 'input-slider',
             }}
           />
     <Slider onChange={changeYRotSlider}
-    sx = {{
-      width: 1/2
-    }}
+        sx = {{
+          width: 1/2,
+          ml: 2.8
+        }}
+        min={-50}
+        max={50}
         value={yRotValue}
         size="small"
         aria-label="Small"
@@ -307,20 +353,27 @@ export function Model(props: any) {
       />
     </Typography>
     <Typography color='primary.light'>Z: <MuiInput
+            sx={{
+              color: 'primary.light',
+              width: 1/10
+            }}
             size="small"
             inputProps={{
               step: 1,
-              min: 0,
-              max: 100,
+              min: -50,
+              max: 50,
               type: 'number',
               value: zRotValue,
               'aria-labelledby': 'input-slider',
             }}
           />
     <Slider onChange={changeZRotSlider}
-     sx = {{
-      width: 1/2
-    }}
+        sx = {{
+          width: 1/2,
+          ml: 2.8
+        }}
+        min={-50}
+        max={50}
         value={zRotValue}
         size="small"
         aria-label="Small"

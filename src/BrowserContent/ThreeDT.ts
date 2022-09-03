@@ -8,7 +8,6 @@ export default class ThreeDT<T extends EventTarget> {
   constructor(target: T) {
     
     this.target = target;
-    //@ts-ignore
     //@ts-ignore EventCache instantiated in injected script
     this.eventCache = new EventCache();
     this.recentEvents = new Set();
