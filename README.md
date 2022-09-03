@@ -1,3 +1,4 @@
+![github logo](https://user-images.githubusercontent.com/95299573/188288457-eec04a56-3e5c-4f61-a344-14761d2aefe4.png)
 # sceneSniff
 Intuitive and dynamic Chrome Dev Tool Extension for Three.js debugging
 
@@ -16,7 +17,7 @@ sceneSniff is an in browser developer tool for Three.js projects. When accessing
 
 # How to Use
 1) Open your Three.js project in the browser.
-2) Open the Inspect/Chrome Developer Tools window and select the '>>' in the navigation bar.
+2) Open the Inspect/Chrome Developer Tools window and select the '>>' in the navigation bar to open the dropdown menu.
 3) Select 'sceneSniff' from the dropdown menu.
 
 Once the tool is open:
