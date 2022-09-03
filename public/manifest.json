@@ -1,6 +1,9 @@
 {
   "name": "sceneSniff",
   "description": "Debugging 3d renders for three.js",
+  "icons": { "16": "sceneSniff16.png",
+    "48": "sceneSniff48.png",
+   "128": "sceneSniff128.png" },
   "version": "1.0",
   "manifest_version": 2,
   "permissions": [
