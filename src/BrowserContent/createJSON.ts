@@ -1,6 +1,6 @@
 
 // @ts-nocheck
-
+// Derived from Three-Devtools github
 export default (() => {
   const isDevtoolsSerialization: any = meta => !!(meta && meta.devtoolsConfig);
   const isObject: any = o => Object.prototype.toString.call(o) === '[object Object]';
@@ -169,7 +169,7 @@ export default (() => {
     } else {
       data.baseType = baseType;
     }
-
+    console.log('RETURNING DATA...')
     return data;
   }
 });

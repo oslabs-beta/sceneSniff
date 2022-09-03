@@ -24,6 +24,7 @@ export default class ThreeDT<T extends EventTarget> {
     this.target.addEventListener('_request-overview', ((e: CustomEvent) => this.requestOverview(e.detail && e.detail.type)) as EventListener);
     this.target.addEventListener('_request-event', ((e: CustomEvent): void => this.requestEvent( e.detail.uuid)) as EventListener);
     this.target.addEventListener('_request-scene-graph', ((e: CustomEvent): void => this.requestSceneObjects(e.detail && e.detail.uuid)) as EventListener);
+    this.target.addEventListener('_update-event', ((e : CustomEvent): void => this.updateEvent(e.detail)) as EventListener)
   }
 
   // Adds observe events to the cache.
@@ -68,6 +69,32 @@ export default class ThreeDT<T extends EventTarget> {
       this.sendEvent('_request-event', data);
     }
     // this.requestSceneObjects(uuid);
+  }
+
+  //When change is made on devtool side, updateEvent in Canvas
+  updateEvent(detail: any) {
+    console.log('UPDATING EVENT: ', detail);
+    const { uuid, property, value, type} = detail
+    const event = this.eventCache.getEvent(uuid);
+
+    if ( !event ) {
+      return;
+    }
+
+    console.log( property.substring( 2, property.length ) )
+    //@ts-ignore
+    //utilities exists in user context land via script loading
+    const { target, key } = utilities.getTargetAndKey( event, property.substring( 2, property.length ) );
+
+    console.log('TARGET: ',target)
+    console.log('KEY: ', key);
+    if ( type === 'enum' ) {
+      target[ key ] = value === -1 ? null: value;
+    } else {
+      target[ key ][ property[ 0 ] ] = value;
+    }
+    console.log('TARGET AFTER: ',target)
+    console.log('KEY BEFORE: ', key);
   }
 
   requestOverview(type: string): void {

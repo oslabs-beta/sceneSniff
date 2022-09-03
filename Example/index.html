@@ -34,10 +34,10 @@
 				cube.rotation.y += 0.01;
 
 				renderer.render( scene, camera );
-				// if (typeof __THREE_DEVTOOLS__ !== "undefined") {
-				// 	__THREE_DEVTOOLS__.dispatchEvent( new CustomEvent("observe", { detail: scene }))
-				// 	__THREE_DEVTOOLS__.dispatchEvent( new CustomEvent("observe", { detail: renderer }))
-				// }
+				if (typeof __THREE_DEVTOOLS__ !== "undefined") {
+					__THREE_DEVTOOLS__.dispatchEvent( new CustomEvent("observe", { detail: scene }))
+					__THREE_DEVTOOLS__.dispatchEvent( new CustomEvent("observe", { detail: renderer }))
+				}
                                 /** HERE IS THE CODE THAT WILL ENABLE THE THREEJS EXTENSION **/                                
                                 // Observe a scene or a renderer
                                 /**  END OF THE CODE THAT WILL ENABLE THE THREEJS EXTENSION **/
