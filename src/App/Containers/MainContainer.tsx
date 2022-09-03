@@ -14,6 +14,7 @@ export const MainContainer = (): JSX.Element => {
 
   const content = new ContentConnector();
 
+  //Event listeners listens for events dispatched by connector
   //content event listeners
   //Request event for specific mesh uuid
   content.addEventListener('request-event', (e: any) => {

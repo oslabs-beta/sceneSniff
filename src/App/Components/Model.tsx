@@ -23,32 +23,43 @@ export function Model(props: any) {
   const[yRotValue, setYRotValue] = useState(0);
   const[zRotValue, setZRotValue] = useState(0);
 
-  const changeWidthSlider = (event: any, value:any) => {
+  const content = props.content;
+  
+  const changeWidthSlider = (event:any, value:any) => {
     setWidthValue(value);
+    content.updateEvent( props.meshData.uuid, 'x-scale', value, 'basicAttribute' )
   };
   const changeHeightSlider = (event:any, value:any) => {
     setHeightValue(value);
+    content.updateEvent( props.meshData.uuid, 'y-scale', value, 'basicAttribute' )
   };
   const changeDepthSlider = (event:any, value:any) => {
     setDepthValue(value);
+    content.updateEvent( props.meshData.uuid, 'z-scale', value, 'basicAttribute' )
   };
   const changeXPosSlider = (event:any, value:any) => {
     setXPosValue(value);
+    content.updateEvent( props.meshData.uuid, 'x-position', value, 'basicAttribute' )
   };
   const changeYPosSlider = (event:any, value:any) => {
     setYPosValue(value);
+    content.updateEvent( props.meshData.uuid, 'y-position', value, 'basicAttribute' )
   };
   const changeZPosSlider = (event:any, value:any) => {
     setZPosValue(value);
+    content.updateEvent( props.meshData.uuid, 'z-position', value, 'basicAttribute' )
   };
   const changeXRotSlider = (event:any, value:any) => {
     setXRotValue(value);
+    content.updateEvent( props.meshData.uuid, 'x-rotation', value, 'basicAttribute' )
   };
   const changeYRotSlider = (event:any, value:any) => {
     setYRotValue(value);
+    content.updateEvent( props.meshData.uuid, 'y-rotation', value, 'basicAttribute' )
   };
   const changeZRotSlider = (event:any, value:any) => {
     setZRotValue(value);
+    content.updateEvent( props.meshData.uuid, 'z-rotation', value, 'basicAttribute' )
   };
 
   /*const handleWidthInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -78,6 +89,7 @@ export function Model(props: any) {
   
   return (
     <>
+    {props.meshData? `UUID: ${props.meshData.uuid}` : ''}
 <Box
     sx={{
       align: 'center',

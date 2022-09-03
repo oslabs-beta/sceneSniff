@@ -86,6 +86,7 @@ export default class ContentConnector extends EventTarget {
     })
   }
 
+  //Helper Functions to post to inspected window
   //Grabbing the overviewing scene/s on the browser
   getOverview(type: string) {
     this.postMessage('_request-overview', { type })
@@ -103,13 +104,17 @@ export default class ContentConnector extends EventTarget {
     this.postMessage('_request-event', { uuid: type });
   }
 
+  updateEvent( uuid: any, property: any, value: any, type: any ) {
+    console.log('UPDATING EVENT: ', uuid, ' ',property,' ', value, ' ', type);
+    this.postMessage('_update-event', { uuid, property, value, type })
+  }
 
   /*helper function for posting message to the window
   *
   * type: Request type
   * detail: either type of requested information of uuid of the entity requested
   */
-  postMessage(type: string, detail: { type: string } | { uuid: string }) {
+  postMessage(type: string, detail: { type: string } | { uuid: string } | { uuid: any, property: any, value: any, type: any}) {
     chrome.devtools.inspectedWindow.eval(
       `__THREE_DEVTOOLS__.dispatchEvent( new CustomEvent('${type}', {
         detail: ${JSON.stringify(detail)},
