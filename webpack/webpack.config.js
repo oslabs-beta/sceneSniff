@@ -6,10 +6,10 @@ const CopyPlugin = require('copy-webpack-plugin');
 module.exports = {
   mode: 'production',
   entry: {
-    background: path.resolve(__dirname, '..', 'src', 'background.ts'),
-    devtools: path.resolve(__dirname, '..', 'src', 'devtools.ts'),
-    panel: path.resolve(__dirname, '..', 'src', 'panel.tsx'),
-    canvasSpy: path.resolve(__dirname, '..', 'src', 'canvasSpy.ts'),
+    background: path.resolve(__dirname, '..', 'src', 'DevtoolContent', 'background.ts'),
+    devtools: path.resolve(__dirname, '..', 'src', 'DevtoolContent', 'devtools.ts'),
+    panel: path.resolve(__dirname, '..', 'src', 'DevtoolContent', 'panel.tsx'),
+    canvasSpy: path.resolve(__dirname, '..', 'src', 'DevtoolContent', 'canvasSpy.ts'),
   },
   output: {
     path: path.join(__dirname, '../dist'),
@@ -39,12 +39,12 @@ module.exports = {
   },
   plugins: [
     new HtmlWebpackPlugin({
-      template: './src/devtools.html',
+      template: './src/DevtoolContent/devtools.html',
       filename: 'devtools.html',
       inject: false,
     }),
     new HtmlWebpackPlugin({
-      template: './src/panel.html',
+      template: './src/DevtoolContent/panel.html',
       filename: 'panel.html',
       inject: false,
     }),
