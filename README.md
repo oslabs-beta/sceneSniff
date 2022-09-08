@@ -26,6 +26,8 @@ sceneSniff is an in browser developer tool for Three.js projects. When accessing
 
 Now, by selecting the different Mesh objects that appear underneath the 'Scene' dropdown, you can live adjust the scale, positioning, and rotation of the objects within your scene.
 
+https://user-images.githubusercontent.com/95299573/188988200-7f8462d0-3d1c-41dd-a498-cf6db646048f.mp4
+
 ## Data Flow
 If you're interested in how everything is connected, feel free to work your way through these data flow charts.
 One is a broad overview while the other takes you through a more step by step approach on how data is moving.
