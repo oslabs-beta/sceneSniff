@@ -8,12 +8,12 @@ sceneSniff is an in browser developer tool for Three.js projects. When accessing
 
 
 ## Getting Started
-1) Clone this repo to your local machine.
-2) Visit chrome://extensions/ in your Chrome browser.
-3) Toggle 'Developer mode' in the top right hand corner.
-4) Click 'Load unpacked' in the top left hand corner.
-5) Navigate to the sceneSniff directory and select the 'dist' folder.
-6) Ensure that you have the toggle set to on.
+1) Clone this repo to your local machine (After that, run `yarn install` and `yarn build` so that the `dist` directory will be built for using in step 6).
+3) Visit chrome://extensions/ in your Chrome browser.
+4) Toggle 'Developer mode' in the top right hand corner.
+5) Click 'Load unpacked' in the top left hand corner.
+6) Navigate to the sceneSniff directory and select the 'dist' folder.
+7) Ensure that you have the toggle set to on.
 
 ### How to Use
 1) Open your Three.js project in the browser.
